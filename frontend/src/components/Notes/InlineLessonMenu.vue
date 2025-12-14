@@ -110,7 +110,7 @@ const colors = computed(() => {
 
 const highlightExists = () => {
 	return notes.value?.data?.some(
-		(note: Note) => note.highlighted_text === selectedText.value
+		(note: Note) => note.highlighted_text === selectedText.value,
 	)
 }
 
@@ -132,16 +132,18 @@ const saveHighLight = (color: string) => {
 				emit('updateNotes')
 			},
 			onError(err: any) {
-				console.error('Error saving highlight:', err)
+				console.log(
+					`[InlineLessonMenu.vue] (Error saving highlight: ${err.message || err})`,
+				)
 				resetStates()
 			},
-		}
+		},
 	)
 }
 
 const deleteHighlight = () => {
 	let notesToDelete = notes.value?.data.find(
-		(note: Note) => note.highlighted_text === selectedText.value
+		(note: Note) => note.highlighted_text === selectedText.value,
 	)
 	if (!notesToDelete) return
 	notes.value?.delete.submit(notesToDelete.name, {
@@ -155,7 +157,9 @@ const deleteHighlight = () => {
 			})
 		},
 		onError(err: any) {
-			console.error('Error deleting highlight:', err)
+			console.log(
+				`[InlineLessonMenu.vue] (Error deleting highlight: ${err.message || err})`,
+			)
 			resetStates()
 		},
 	})
@@ -192,10 +196,12 @@ const createNote = () => {
 				}, 100)
 			},
 			onError(err: any) {
-				console.error('Error creating note:', err)
+				console.log(
+					`[InlineLessonMenu.vue] (Error creating note: ${err.message || err})`,
+				)
 				resetStates()
 			},
-		}
+		},
 	)
 }
 
@@ -215,10 +221,12 @@ const updateNote = (noteToUpdate: Note) => {
 				}, 100)
 			},
 			onError(err: any) {
-				console.error('Error updating note:', err)
+				console.log(
+					`[InlineLessonMenu.vue] (Error updating note: ${err.message || err})`,
+				)
 				resetStates()
 			},
-		}
+		},
 	)
 }
 
