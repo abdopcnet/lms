@@ -57,7 +57,7 @@ const props = withDefaults(
 		maxHeight: '250px',
 		showLineNumbers: true,
 		completions: null,
-	}
+	},
 )
 const emit = defineEmits(['update:modelValue', 'save'])
 
@@ -69,7 +69,7 @@ watch(
 		code.value =
 			typeof newVal === 'string' ? newVal : JSON.stringify(newVal, null, 2)
 	},
-	{ immediate: true }
+	{ immediate: true },
 )
 
 watch(code, (val) => {
@@ -86,7 +86,7 @@ const emitEditorValue = () => {
 			emit('update:modelValue', value)
 		}
 	} catch (e) {
-		console.error('Error while parsing JSON for editor', e)
+		console.log(`[Code.vue] (Error parsing JSON for editor: ${e.message || e})`)
 		errorMessage.value = `Invalid object/JSON: ${e.message}`
 	}
 }
@@ -126,7 +126,7 @@ watch(
 	async () => {
 		await setLanguageExtension()
 	},
-	{ immediate: true }
+	{ immediate: true },
 )
 
 const extensions = computed(() => {
