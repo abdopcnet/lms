@@ -86,17 +86,19 @@
 	</div>
 	<Dialog
 		v-model="showForm"
-		:options="{ 
+		:options="{
 			size: 'xl',
 			title: __('Add Evaluator'),
-			actions: [{
-				label: __('Add'),
-				variant: 'solid',
-				onClick({ close }: any) {
-					addEvaluator(close)
+			actions: [
+				{
+					label: __('Add'),
+					variant: 'solid',
+					onClick({ close }: any) {
+						addEvaluator(close)
+					},
 				},
-			}]
-	}"
+			],
+		}"
 	>
 		<template #body-content>
 			<div v-if="showForm" class="flex items-center">
@@ -162,7 +164,9 @@ const addEvaluator = (close: () => void) => {
 		})
 		.catch((error: any) => {
 			toast.error(__(error.messages[0] || error.messages))
-			console.error('Error adding evaluator:', error)
+			console.log(
+				`[Evaluators.vue] (Error adding evaluator: ${error.message || error})`,
+			)
 		})
 }
 
@@ -195,7 +199,9 @@ const deleteEvaluator = (evaluator: string) => {
 		})
 		.catch((error: any) => {
 			toast.error(__(error.messages[0] || error.messages))
-			console.error('Error deleting evaluator:', error)
+			console.log(
+				`[Evaluators.vue] (Error deleting evaluator: ${error.message || error})`,
+			)
 		})
 }
 </script>
