@@ -241,7 +241,7 @@ function enrollStudent() {
 			})
 			.catch((err) => {
 				toast.warning(__(err.messages?.[0] || err))
-				console.error(err)
+				console.log(`[CourseCardOverlay.vue] (Error: ${err.message || err})`)
 			})
 	}
 }
@@ -278,7 +278,7 @@ const certificate = createResource({
 			`/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=${
 				data.name
 			}&format=${encodeURIComponent(data.template)}`,
-			'_blank'
+			'_blank',
 		)
 	},
 })
