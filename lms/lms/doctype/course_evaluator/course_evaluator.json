@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:evaluator",
+ "creation": "2022-03-29 10:51:47.667284",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "evaluator",
+  "full_name",
+  "column_break_casg",
+  "user_image",
+  "username",
+  "section_break_ljse",
+  "schedule",
+  "unavailability_section",
+  "unavailable_from",
+  "column_break_ahzi",
+  "unavailable_to"
+ ],
+ "fields": [
+  {
+   "fieldname": "evaluator",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Evaluator",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "schedule",
+   "fieldtype": "Table",
+   "label": "Schedule",
+   "options": "Evaluator Schedule"
+  },
+  {
+   "fieldname": "unavailability_section",
+   "fieldtype": "Section Break",
+   "label": "Unavailability"
+  },
+  {
+   "fieldname": "column_break_ahzi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "unavailable_from",
+   "fieldtype": "Date",
+   "label": "From"
+  },
+  {
+   "fieldname": "unavailable_to",
+   "fieldtype": "Date",
+   "label": "To"
+  },
+  {
+   "fetch_from": "evaluator.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name"
+  },
+  {
+   "fieldname": "column_break_casg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ljse",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "evaluator.user_image",
+   "fieldname": "user_image",
+   "fieldtype": "Attach Image",
+   "label": "User Image"
+  },
+  {
+   "fetch_from": "evaluator.username",
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-10 11:41:51.802016",
+ "modified_by": "sayali@frappe.io",
+ "module": "LMS",
+ "name": "Course Evaluator",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Moderator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Batch Evaluator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "full_name",
+ "track_changes": 1
+}
