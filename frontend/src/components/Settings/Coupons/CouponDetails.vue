@@ -114,7 +114,7 @@ const editCoupon = () => {
 					couponItems.value.saveItems()
 				}
 			},
-		}
+		},
 	)
 }
 
@@ -134,9 +134,9 @@ const createCoupon = () => {
 			},
 			onError(err: any) {
 				toast.error(err.messages?.[0] || err.message || err)
-				console.error(err)
+				console.log(`[CouponDetails.vue] (Error: ${err.message || err})`)
 			},
-		}
+		},
 	)
 }
 </script>
