@@ -141,7 +141,9 @@ const getExerciseCount = () => {
 			exerciseCount.value = count
 		})
 		.catch((error: any) => {
-			console.error('Error fetching exercise count:', error)
+			console.log(
+				`[ProgrammingExercises.vue] (Error fetching exercise count: ${error.message || error})`,
+			)
 		})
 }
 
