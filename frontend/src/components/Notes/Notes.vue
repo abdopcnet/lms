@@ -41,7 +41,7 @@ watch(
 	() => {
 		updateCurrentNote()
 		blockQuotesClick()
-	}
+	},
 )
 
 const updateCurrentNote = () => {
@@ -90,9 +90,9 @@ const createNote = () => {
 				emit('updateNotes')
 			},
 			onError(err: any) {
-				console.error('Error creating note:', err)
+				console.log(`[Notes.vue] (Error creating note: ${err.message || err})`)
 			},
-		}
+		},
 	)
 }
 
@@ -110,9 +110,9 @@ const updateNote = () => {
 				emit('updateNotes')
 			},
 			onError(err: any) {
-				console.error('Error updating note:', err)
+				console.log(`[Notes.vue] (Error updating note: ${err.message || err})`)
 			},
-		}
+		},
 	)
 }
 </script>
