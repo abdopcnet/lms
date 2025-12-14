@@ -358,7 +358,7 @@ const createSubmission = () => {
 			toast.success(__('Submission saved!'))
 		})
 		.catch((error: any) => {
-			console.error('Error creating submission:', error)
+			console.log(`[ProgrammingExerciseSubmission.vue] (Error creating submission: ${error.message || error})`)
 			toast.error(
 				__('Failed to submit. Please try again. {0}').format({ error })
 			)
