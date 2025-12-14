@@ -1,99 +1,1374 @@
-{% set custom_signup_content = frappe.db.get_single_value("LMS Settings", "custom_signup_content") %}
-<form class="signup-form" role="form">
-    <div class="page-card-body">
-        <div class="form-group">
-            <label class="form-label sr-only" for="signup_fullname"> {{ _("Full Name") }} </label>
-            <input type="text" id="signup_fullname" class="form-control" placeholder="{{ _('Jane Doe') }}"
-            required autofocus>
-        </div>
-        <div class="form-group">
-            <label class="form-label sr-only" for="signup_email"> {{ _("Email") }} </label>
-            <input type="email" id="signup_email" class="form-control"
-            placeholder="{{ _('jane@example.com') }}" required>
-        </div>
+{% set custom_signup_content = frappe.db.get_single_value("LMS Settings",
+"custom_signup_content") %}
 
-        {% if frappe.db.get_single_value("LMS Settings", "user_category") %}
-        <div class="form-group">
-            <label class="form-label sr-only"> {{ _("User Category") }} </label>
-            <div class="control-input-wrapper">
-                <div class="control-input flex align-center">
-                    <select type="text" id="user_category" data-fieldname="user_category" style="color: var(--text-light)"
-                    class="input-with-feedback form-control ellipsis" data-fieldtype="Select" required>
-                        <option value=""> {{ _("Category") }} </option>
-                        <option value="Business Owner"> {{ _("Business Owner") }} </option>
-                        <option value="Manager (Sales/Marketing/Customer)"> {{ _("Manager (Sales/Marketing/Customer)") }} </option>
-                        <option value="Employee"> {{ _("Employee") }} </option>
-                        <option value="Student"> {{ _("Student") }} </option>
-                        <option value="Freelancer/Just looking"> {{ _("Freelancer/Just looking") }} </option>
-                        <option value="Others"> {{ _("Others") }} </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        {% endif %}
+<div class="signup-container">
+	<!-- User Type Selection Screen -->
+	<div id="user-type-selection" class="user-type-screen">
+		<div class="signup-header">
+			<div class="header-icon">
+				<svg
+					width="32"
+					height="32"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+					<circle cx="12" cy="7" r="4"></circle>
+				</svg>
+			</div>
+			<h2 class="signup-title">{{ _("Welcome! Join Us") }}</h2>
+			<p class="signup-subtitle">
+				{{ _("First, let us know who you are") }}
+			</p>
+		</div>
 
-        {% if custom_signup_content %}
-        <div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <span class="input-area">
-                    <input type="checkbox" autocomplete="off" class="input-with-feedback"
-                        data-fieldtype="Check" data-fieldname="terms" id="signup-terms" required>
-                    </span>
-                    <span class="label-area">
-                    {{ custom_signup_content }}
-                    </span>
-                </label>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    <div class="page-card-actions">
-        <button class="btn btn-sm btn-primary btn-block btn-signup"
-            type="submit">{{ _("Sign up") }}</button>
+		<div class="user-type-cards">
+			<div class="type-card" data-type="student">
+				<div class="type-icon student-icon">
+					<svg
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+						<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+					</svg>
+				</div>
+				<h3 class="type-title">{{ _("I'm a Student") }}</h3>
+				<p class="type-description">
+					{{ _("Looking to learn and grow my skills") }}
+				</p>
+				<button class="type-btn" onclick="selectUserType('student')">
+					{{ _("Continue as Student") }}
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M5 12h14M12 5l7 7-7 7"></path>
+					</svg>
+				</button>
+			</div>
 
-        <p class="text-center sign-up-message">
-            <a href="#login" class="blue">{{ _("Have an account? Login") }}</a>
-        </p>
-    </div>
-</form>
+			<div class="type-card" data-type="teacher">
+				<div class="type-icon teacher-icon">
+					<svg
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path
+							d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+						></path>
+						<circle cx="9" cy="7" r="4"></circle>
+						<path
+							d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+						></path>
+					</svg>
+				</div>
+				<h3 class="type-title">{{ _("I'm a Teacher") }}</h3>
+				<p class="type-description">
+					{{ _("Ready to share knowledge and teach") }}
+				</p>
+				<button class="type-btn" onclick="selectUserType('teacher')">
+					{{ _("Continue as Teacher") }}
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M5 12h14M12 5l7 7-7 7"></path>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Student Registration Form -->
+	<div id="student-form" class="registration-form" style="display: none">
+		<div class="signup-header">
+			<button class="back-btn" onclick="goBack()">
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M19 12H5M12 19l-7-7 7-7"></path>
+				</svg>
+				{{ _("Back") }}
+			</button>
+			<div class="header-icon student-icon">
+				<svg
+					width="32"
+					height="32"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+					<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+				</svg>
+			</div>
+			<h2 class="signup-title">{{ _("Student Registration") }}</h2>
+			<p class="signup-subtitle">
+				{{ _("Create your student account") }}
+			</p>
+		</div>
+
+		<form class="signup-form" data-form-type="student" role="form">
+			<div class="page-card-body">
+				<div class="form-group">
+					<label class="form-label" for="student_fullname">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+							></path>
+							<circle cx="12" cy="7" r="4"></circle>
+						</svg>
+						{{ _("Full Name") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="text"
+							id="student_fullname"
+							class="form-control enhanced-input"
+							placeholder="{{ _('Jane Doe') }}"
+							required
+							autofocus
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+								></path>
+								<circle cx="12" cy="7" r="4"></circle>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="student_email">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+							></path>
+							<polyline points="22,6 12,13 2,6"></polyline>
+						</svg>
+						{{ _("Email") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="email"
+							id="student_email"
+							class="form-control enhanced-input"
+							placeholder="{{ _('jane@example.com') }}"
+							required
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+								></path>
+								<polyline points="22,6 12,13 2,6"></polyline>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="student_grade">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"
+							></path>
+							<path
+								d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
+							></path>
+						</svg>
+						{{ _("Grade/Level") }}
+					</label>
+					<div class="input-with-icon">
+						<select
+							id="student_grade"
+							class="form-control enhanced-select"
+							required
+						>
+							<option value="">
+								{{ _("Select your grade") }}
+							</option>
+							<option value="High School">
+								{{ _("High School") }}
+							</option>
+							<option value="University - Undergraduate">
+								{{ _("University - Undergraduate") }}
+							</option>
+							<option value="University - Graduate">
+								{{ _("University - Graduate") }}
+							</option>
+							<option value="Other">{{ _("Other") }}</option>
+						</select>
+						<div class="input-icon select-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<polyline points="6 9 12 15 18 9"></polyline>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				{% if custom_signup_content %}
+				<div class="form-group">
+					<div class="custom-checkbox">
+						<input type="checkbox" id="student-terms" required />
+						<label for="student-terms">
+							<span class="checkbox-icon">
+								<svg
+									width="14"
+									height="14"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="3"
+								>
+									<polyline
+										points="20 6 9 17 4 12"
+									></polyline>
+								</svg>
+							</span>
+							<span class="checkbox-text"
+								>{{ custom_signup_content }}</span
+							>
+						</label>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="page-card-actions">
+				<button class="btn-signup" type="submit">
+					<span class="btn-text"
+						>{{ _("Create Student Account") }}</span
+					>
+					<svg
+						class="btn-icon"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M5 12h14M12 5l7 7-7 7"></path>
+					</svg>
+				</button>
+
+				<div class="divider">
+					<span>{{ _("or") }}</span>
+				</div>
+
+				<p class="login-link">
+					<svg
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path
+							d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+						></path>
+						<polyline points="10 17 15 12 10 7"></polyline>
+						<line x1="15" y1="12" x2="3" y2="12"></line>
+					</svg>
+					<a href="#login"
+						>{{ _("Already have an account? Login") }}</a
+					>
+				</p>
+			</div>
+
+			<div id="student-message" class="message-box"></div>
+		</form>
+	</div>
+
+	<!-- Teacher Registration Form -->
+	<div id="teacher-form" class="registration-form" style="display: none">
+		<div class="signup-header">
+			<button class="back-btn" onclick="goBack()">
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M19 12H5M12 19l-7-7 7-7"></path>
+				</svg>
+				{{ _("Back") }}
+			</button>
+			<div class="header-icon teacher-icon">
+				<svg
+					width="32"
+					height="32"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+					<circle cx="9" cy="7" r="4"></circle>
+					<path
+						d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+					></path>
+				</svg>
+			</div>
+			<h2 class="signup-title">{{ _("Teacher Registration") }}</h2>
+			<p class="signup-subtitle">
+				{{ _("Create your teacher account") }}
+			</p>
+		</div>
+
+		<form class="signup-form" data-form-type="teacher" role="form">
+			<div class="page-card-body">
+				<div class="form-group">
+					<label class="form-label" for="teacher_fullname">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+							></path>
+							<circle cx="12" cy="7" r="4"></circle>
+						</svg>
+						{{ _("Full Name") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="text"
+							id="teacher_fullname"
+							class="form-control enhanced-input"
+							placeholder="{{ _('John Smith') }}"
+							required
+							autofocus
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+								></path>
+								<circle cx="12" cy="7" r="4"></circle>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="teacher_email">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+							></path>
+							<polyline points="22,6 12,13 2,6"></polyline>
+						</svg>
+						{{ _("Email") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="email"
+							id="teacher_email"
+							class="form-control enhanced-input"
+							placeholder="{{ _('john@example.com') }}"
+							required
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+								></path>
+								<polyline points="22,6 12,13 2,6"></polyline>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="teacher_specialization">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+							></path>
+						</svg>
+						{{ _("Subject/Specialization") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="text"
+							id="teacher_specialization"
+							class="form-control enhanced-input"
+							placeholder="{{ _('e.g., Mathematics, Science, History...') }}"
+							required
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+								></path>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="teacher_experience">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<circle cx="12" cy="12" r="10"></circle>
+							<polyline points="12 6 12 12 16 14"></polyline>
+						</svg>
+						{{ _("Years of Experience") }}
+					</label>
+					<div class="input-with-icon">
+						<select
+							id="teacher_experience"
+							class="form-control enhanced-select"
+							required
+						>
+							<option value="">
+								{{ _("Select experience") }}
+							</option>
+							<option value="0-2 years">
+								{{ _("0-2 years") }}
+							</option>
+							<option value="3-5 years">
+								{{ _("3-5 years") }}
+							</option>
+							<option value="6-10 years">
+								{{ _("6-10 years") }}
+							</option>
+							<option value="10+ years">
+								{{ _("10+ years") }}
+							</option>
+						</select>
+						<div class="input-icon select-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<polyline points="6 9 12 15 18 9"></polyline>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				{% if custom_signup_content %}
+				<div class="form-group">
+					<div class="custom-checkbox">
+						<input type="checkbox" id="teacher-terms" required />
+						<label for="teacher-terms">
+							<span class="checkbox-icon">
+								<svg
+									width="14"
+									height="14"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="3"
+								>
+									<polyline
+										points="20 6 9 17 4 12"
+									></polyline>
+								</svg>
+							</span>
+							<span class="checkbox-text"
+								>{{ custom_signup_content }}</span
+							>
+						</label>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="page-card-actions">
+				<button class="btn-signup" type="submit">
+					<span class="btn-text"
+						>{{ _("Create Teacher Account") }}</span
+					>
+					<svg
+						class="btn-icon"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M5 12h14M12 5l7 7-7 7"></path>
+					</svg>
+				</button>
+
+				<div class="divider">
+					<span>{{ _("or") }}</span>
+				</div>
+
+				<p class="login-link">
+					<svg
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path
+							d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+						></path>
+						<polyline points="10 17 15 12 10 7"></polyline>
+						<line x1="15" y1="12" x2="3" y2="12"></line>
+					</svg>
+					<a href="#login"
+						>{{ _("Already have an account? Login") }}</a
+					>
+				</p>
+			</div>
+
+			<div id="teacher-message" class="message-box"></div>
+		</form>
+	</div>
+</div>
+
+<style>
+	.signup-container {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.user-type-screen {
+		animation: fadeIn 0.5s ease;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.signup-header {
+		text-align: center;
+		margin-bottom: 35px;
+		position: relative;
+	}
+
+	.back-btn {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: #f8fafc;
+		border: 2px solid #e2e8f0;
+		padding: 10px 18px;
+		border-radius: 10px;
+		font-size: 14px;
+		font-weight: 600;
+		color: #4a5568;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		transition: all 0.3s ease;
+	}
+
+	.back-btn:hover {
+		background: #e2e8f0;
+		transform: translateX(-3px);
+	}
+
+	.header-icon {
+		width: 70px;
+		height: 70px;
+		margin: 0 auto 20px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+	}
+
+	.header-icon.student-icon {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+		box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+	}
+
+	.header-icon.teacher-icon {
+		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+		box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+	}
+
+	.header-icon svg {
+		color: white;
+	}
+
+	.signup-title {
+		font-size: 28px;
+		font-weight: 700;
+		color: #2d3748;
+		margin: 0 0 10px;
+		letter-spacing: -0.5px;
+	}
+
+	.signup-subtitle {
+		font-size: 15px;
+		color: #718096;
+		margin: 0;
+	}
+
+	.user-type-cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 25px;
+		margin-top: 40px;
+	}
+
+	.type-card {
+		background: white;
+		border-radius: 16px;
+		padding: 35px 30px;
+		text-align: center;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		transition: all 0.3s ease;
+		border: 2px solid transparent;
+	}
+
+	.type-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+	}
+
+	.type-card[data-type="student"]:hover {
+		border-color: #4facfe;
+	}
+
+	.type-card[data-type="teacher"]:hover {
+		border-color: #fa709a;
+	}
+
+	.type-icon {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto 20px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+	}
+
+	.type-icon.student-icon {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+		box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
+	}
+
+	.type-icon.teacher-icon {
+		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+		box-shadow: 0 8px 20px rgba(250, 112, 154, 0.3);
+	}
+
+	.type-card:hover .type-icon {
+		transform: scale(1.1);
+	}
+
+	.type-icon svg {
+		color: white;
+	}
+
+	.type-title {
+		font-size: 22px;
+		font-weight: 700;
+		color: #2d3748;
+		margin: 0 0 10px;
+	}
+
+	.type-description {
+		font-size: 14px;
+		color: #718096;
+		margin: 0 0 25px;
+	}
+
+	.type-btn {
+		width: 100%;
+		padding: 14px 20px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border: none;
+		border-radius: 10px;
+		font-size: 15px;
+		font-weight: 600;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		transition: all 0.3s ease;
+	}
+
+	.type-card[data-type="student"] .type-btn {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	}
+
+	.type-card[data-type="teacher"] .type-btn {
+		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+	}
+
+	.type-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+	}
+
+	.type-card[data-type="student"] .type-btn:hover {
+		box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+	}
+
+	.type-card[data-type="teacher"] .type-btn:hover {
+		box-shadow: 0 6px 20px rgba(250, 112, 154, 0.4);
+	}
+
+	.registration-form {
+		max-width: 480px;
+		margin: 0 auto;
+		animation: slideIn 0.5s ease;
+	}
+
+	@keyframes slideIn {
+		from {
+			opacity: 0;
+			transform: translateX(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	.signup-form {
+		background: white;
+		border-radius: 16px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		overflow: hidden;
+	}
+
+	.page-card-body {
+		padding: 30px;
+	}
+
+	.form-group {
+		margin-bottom: 24px;
+	}
+
+	.form-label {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 14px;
+		font-weight: 600;
+		color: #2d3748;
+		margin-bottom: 10px;
+	}
+
+	.form-label svg {
+		color: #667eea;
+	}
+
+	.input-with-icon {
+		position: relative;
+	}
+
+	.enhanced-input,
+	.enhanced-select {
+		width: 100%;
+		padding: 14px 50px 14px 18px;
+		font-size: 15px;
+		border: 2px solid #e2e8f0;
+		border-radius: 10px;
+		transition: all 0.3s ease;
+		background: white;
+		color: #2d3748;
+	}
+
+	.enhanced-input:focus,
+	.enhanced-select:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	}
+
+	.enhanced-input::placeholder {
+		color: #a0aec0;
+	}
+
+	.enhanced-select {
+		appearance: none;
+		cursor: pointer;
+		color: #a0aec0;
+	}
+
+	.enhanced-select:valid {
+		color: #2d3748;
+	}
+
+	.enhanced-select option {
+		color: #2d3748;
+	}
+
+	.input-icon {
+		position: absolute;
+		right: 15px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #a0aec0;
+		pointer-events: none;
+	}
+
+	.select-icon svg {
+		transition: transform 0.3s ease;
+	}
+
+	.enhanced-select:focus ~ .select-icon svg {
+		transform: rotate(180deg);
+	}
+
+	.custom-checkbox {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.custom-checkbox input[type="checkbox"] {
+		display: none;
+	}
+
+	.custom-checkbox label {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.checkbox-icon {
+		width: 22px;
+		height: 22px;
+		border: 2px solid #e2e8f0;
+		border-radius: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+		flex-shrink: 0;
+		margin-top: 2px;
+		background: white;
+	}
+
+	.checkbox-icon svg {
+		opacity: 0;
+		transform: scale(0);
+		transition: all 0.2s ease;
+		color: white;
+	}
+
+	.custom-checkbox input[type="checkbox"]:checked + label .checkbox-icon {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		border-color: #667eea;
+	}
+
+	.custom-checkbox input[type="checkbox"]:checked + label .checkbox-icon svg {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.checkbox-text {
+		font-size: 13px;
+		color: #4a5568;
+		line-height: 1.6;
+	}
+
+	.page-card-actions {
+		padding: 25px 30px 30px;
+		background: #f8fafc;
+		border-top: 1px solid #e2e8f0;
+	}
+
+	.btn-signup {
+		width: 100%;
+		padding: 16px 24px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border: none;
+		border-radius: 10px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+	}
+
+	.btn-signup:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+	}
+
+	.btn-signup:active {
+		transform: translateY(0);
+	}
+
+	.btn-signup:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		transform: none;
+	}
+
+	.btn-icon {
+		transition: transform 0.3s ease;
+	}
+
+	.btn-signup:hover .btn-icon {
+		transform: translateX(3px);
+	}
+
+	.divider {
+		display: flex;
+		align-items: center;
+		text-align: center;
+		margin: 20px 0;
+		color: #a0aec0;
+		font-size: 13px;
+	}
+
+	.divider::before,
+	.divider::after {
+		content: "";
+		flex: 1;
+		border-bottom: 1px solid #e2e8f0;
+	}
+
+	.divider span {
+		padding: 0 15px;
+		background: #f8fafc;
+	}
+
+	.login-link {
+		text-align: center;
+		margin: 0;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
+
+	.login-link svg {
+		color: #667eea;
+	}
+
+	.login-link a {
+		color: #667eea;
+		font-weight: 600;
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+
+	.login-link a:hover {
+		color: #5568d3;
+		text-decoration: underline;
+	}
+
+	.message-box {
+		margin-top: 20px;
+		padding: 15px 20px;
+		border-radius: 10px;
+		font-size: 14px;
+		font-weight: 500;
+		display: none;
+		animation: slideDown 0.3s ease;
+	}
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.message-box.error {
+		background: #fff5f5;
+		color: #c53030;
+		border: 1px solid #feb2b2;
+		display: block;
+	}
+
+	.message-box.success {
+		background: #f0fff4;
+		color: #22543d;
+		border: 1px solid #9ae6b4;
+		display: block;
+	}
+
+	@media (max-width: 768px) {
+		.signup-container {
+			padding: 15px;
+		}
+
+		.user-type-cards {
+			grid-template-columns: 1fr;
+		}
+
+		.signup-title {
+			font-size: 24px;
+		}
+
+		.page-card-body {
+			padding: 25px 20px;
+		}
+
+		.page-card-actions {
+			padding: 20px;
+		}
+
+		.enhanced-input,
+		.enhanced-select {
+			padding: 12px 45px 12px 15px;
+			font-size: 14px;
+		}
+	}
+</style>
 
 <script>
-    frappe.ready(function () {
-        $("#user_category").on("change", (e) => {
-            style_category(e);
-        });
+	function selectUserType(type) {
+		// Hide user type selection
+		document.getElementById("user-type-selection").style.display = "none";
 
-        $(".signup-form").on("submit", (e) => {
-            signup(e);
-        });
-    });
+		// Show the appropriate form
+		if (type === "student") {
+			document.getElementById("student-form").style.display = "block";
+		} else if (type === "teacher") {
+			document.getElementById("teacher-form").style.display = "block";
+		}
+	}
 
-    const style_category = (e) => {
-        let category_color = $(e.currentTarget).val() ? "var(--text-color)" : "var(--text-muted)";
-        $("#user_category").css("color", category_color);
-    }
+	function goBack() {
+		// Hide all forms
+		document.getElementById("student-form").style.display = "none";
+		document.getElementById("teacher-form").style.display = "none";
 
-    const signup = (e) => {
-        e.preventDefault();
-        const email = ($("#signup_email").val() || "").trim();
-        const full_name = frappe.utils.xss_sanitise(($("#signup_fullname").val() || "").trim());
+		// Show user type selection
+		document.getElementById("user-type-selection").style.display = "block";
+	}
 
-        if (!email || !validate_email(email) || !full_name) {
-            login.set_status('{{ _("Valid email and name required") }}', 'red');
-            return false;
-        }
+	frappe.ready(function () {
+		// Handle student form submission
+		$('form[data-form-type="student"]').on("submit", function (e) {
+			e.preventDefault();
+			handleStudentSignup(e);
+		});
 
-        frappe.call({
-            method: "lms.lms.user.sign_up",
-            args: {
-                "email": email,
-                "full_name": full_name,
-                "verify_terms": $("#signup-terms").prop("checked") ? 1 : 0,
-                "user_category": $("#user_category").length ?  $("#user_category").val() : ""
-            },
-            statusCode: login.login_handlers
-        })
-        return false;
-    }
+		// Handle teacher form submission
+		$('form[data-form-type="teacher"]').on("submit", function (e) {
+			e.preventDefault();
+			handleTeacherSignup(e);
+		});
+
+		// Handle select color changes
+		$(".enhanced-select").on("change", function () {
+			if ($(this).val()) {
+				$(this).css("color", "#2d3748");
+			} else {
+				$(this).css("color", "#a0aec0");
+			}
+		});
+	});
+
+	function handleStudentSignup(e) {
+		const email = ($("#student_email").val() || "").trim();
+		const full_name = frappe.utils.xss_sanitise(
+			($("#student_fullname").val() || "").trim()
+		);
+		const grade = $("#student_grade").val();
+		const messageBox = $("#student-message");
+		const submitBtn = $('form[data-form-type="student"] .btn-signup');
+
+		// Clear previous messages
+		messageBox.removeClass("error success").hide();
+
+		if (!email || !validate_email(email) || !full_name || !grade) {
+			messageBox
+				.addClass("error")
+				.text('{{ _("Please fill all required fields") }}')
+				.show();
+			return false;
+		}
+
+		// Disable button
+		submitBtn.prop("disabled", true);
+		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
+
+		frappe.call({
+			method: "lms.lms.user.sign_up",
+			args: {
+				email: email,
+				full_name: full_name,
+				verify_terms: $("#student-terms").prop("checked") ? 1 : 0,
+				user_category: "Student - " + grade,
+			},
+			callback: function (r) {
+				if (r.message && r.message.success) {
+					messageBox
+						.addClass("success")
+						.text(
+							r.message.message ||
+								'{{ _("Account created successfully!") }}'
+						)
+						.show();
+
+					// Redirect after 2 seconds
+					setTimeout(function () {
+						window.location.href = "/login";
+					}, 2000);
+				} else {
+					messageBox
+						.addClass("error")
+						.text(
+							r.message ||
+								'{{ _("Registration failed. Please try again.") }}'
+						)
+						.show();
+					submitBtn.prop("disabled", false);
+					submitBtn
+						.find(".btn-text")
+						.text('{{ _("Create Student Account") }}');
+				}
+			},
+			error: function (r) {
+				messageBox
+					.addClass("error")
+					.text(
+						r.message ||
+							'{{ _("An error occurred. Please try again.") }}'
+					)
+					.show();
+				submitBtn.prop("disabled", false);
+				submitBtn
+					.find(".btn-text")
+					.text('{{ _("Create Student Account") }}');
+			},
+		});
+		return false;
+	}
+
+	function handleTeacherSignup(e) {
+		const email = ($("#teacher_email").val() || "").trim();
+		const full_name = frappe.utils.xss_sanitise(
+			($("#teacher_fullname").val() || "").trim()
+		);
+		const specialization = $("#teacher_specialization").val();
+		const experience = $("#teacher_experience").val();
+		const messageBox = $("#teacher-message");
+		const submitBtn = $('form[data-form-type="teacher"] .btn-signup');
+
+		// Clear previous messages
+		messageBox.removeClass("error success").hide();
+
+		if (
+			!email ||
+			!validate_email(email) ||
+			!full_name ||
+			!specialization ||
+			!experience
+		) {
+			messageBox
+				.addClass("error")
+				.text('{{ _("Please fill all required fields") }}')
+				.show();
+			return false;
+		}
+
+		// Disable button
+		submitBtn.prop("disabled", true);
+		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
+
+		frappe.call({
+			method: "lms.lms.user.sign_up",
+			args: {
+				email: email,
+				full_name: full_name,
+				verify_terms: $("#teacher-terms").prop("checked") ? 1 : 0,
+				user_category:
+					"Teacher - " + specialization + " (" + experience + ")",
+			},
+			callback: function (r) {
+				if (r.message && r.message.success) {
+					messageBox
+						.addClass("success")
+						.text(
+							r.message.message ||
+								'{{ _("Account created successfully!") }}'
+						)
+						.show();
+
+					// Redirect after 2 seconds
+					setTimeout(function () {
+						window.location.href = "/login";
+					}, 2000);
+				} else {
+					messageBox
+						.addClass("error")
+						.text(
+							r.message ||
+								'{{ _("Registration failed. Please try again.") }}'
+						)
+						.show();
+					submitBtn.prop("disabled", false);
+					submitBtn
+						.find(".btn-text")
+						.text('{{ _("Create Teacher Account") }}');
+				}
+			},
+			error: function (r) {
+				messageBox
+					.addClass("error")
+					.text(
+						r.message ||
+							'{{ _("An error occurred. Please try again.") }}'
+					)
+					.show();
+				submitBtn.prop("disabled", false);
+				submitBtn
+					.find(".btn-text")
+					.text('{{ _("Create Teacher Account") }}');
+			},
+		});
+		return false;
+	}
 </script>
