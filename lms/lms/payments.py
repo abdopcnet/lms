@@ -38,21 +38,58 @@ def get_payment_link(
 	amount -= discount_amount
 	amount_with_gst = get_amount_with_gst(amount, gst_amount)
 
-	payment = record_payment(
-		address,
-		doctype,
-		docname,
-		amount,
-		original_amount,
-		currency,
-		amount_with_gst,
-		discount_amount,
-		payment_for_certificate,
-		coupon_code,
-		coupon,
+	# Check if there's already a pending payment for this user and course
+	existing_payment = frappe.db.get_value(
+		"LMS Payment",
+		{
+			"member": frappe.session.user,
+			"payment_for_document_type": doctype,
+			"payment_for_document": docname,
+			"payment_received": 0,
+		},
+		"name",
+		order_by="creation desc",
 	)
+
+	if existing_payment:
+		# Reuse existing payment
+		payment = frappe.get_doc("LMS Payment", existing_payment)
+		# Update payment details in case they changed
+		payment.update(
+			{
+				"amount": amount,
+				"discount_amount": discount_amount,
+				"amount_with_gst": amount_with_gst,
+				"original_amount": original_amount if coupon_code else None,
+			}
+		)
+		if coupon_code:
+			payment.update(
+				{
+					"coupon": coupon,
+					"coupon_code": coupon_code,
+				}
+			)
+		payment.save(ignore_permissions=True)
+	else:
+		# Create new payment
+		payment = record_payment(
+			address,
+			doctype,
+			docname,
+			amount,
+			original_amount,
+			currency,
+			amount_with_gst,
+			discount_amount,
+			payment_for_certificate,
+			coupon_code,
+			coupon,
+		)
+
 	controller = get_controller(payment_gateway)
 
+	# Use payment name as order_id to ensure unique Integration Request name
 	payment_details = {
 		"amount": amount_with_gst if amount_with_gst else amount,
 		"title": f"Payment for {doctype} {title} {docname}",
@@ -65,12 +102,67 @@ def get_payment_link(
 		"payment_gateway": payment_gateway,
 		"redirect_to": redirect_to,
 		"payment": payment.name,
+		"order_id": payment.name,  # Use payment name to ensure unique Integration Request
 	}
 
-	create_order(payment_gateway, payment_details, controller)
-	url = controller.get_payment_url(**payment_details)
+	# Check if Integration Request already exists for this payment
+	existing_integration = frappe.db.get_value(
+		"Integration Request",
+		{
+			"reference_doctype": doctype,
+			"reference_docname": docname,
+			"integration_request_service": payment_gateway,
+			"status": ["in", ["Queued", "Authorized"]],
+		},
+		"name",
+		order_by="creation desc",
+	)
 
-	return url
+	if existing_integration:
+		# Reuse existing Integration Request
+		if payment_gateway == "Manual Payment":
+			from urllib.parse import urlencode
+			from frappe.utils import get_url
+			return get_url(f"/manual_payment?{urlencode({'token': existing_integration, 'amount': payment_details['amount'], 'currency': currency, 'title': payment_details['title']})}")
+		elif payment_gateway == "Razorpay":
+			from frappe.utils import get_url
+			return get_url(f"./razorpay_checkout?token={existing_integration}")
+		else:
+			# For other gateways, try to get URL from controller
+			try:
+				url = controller.get_payment_url(**payment_details)
+				return url
+			except frappe.DuplicateEntryError:
+				# If still duplicate, return existing integration URL
+				from frappe.utils import get_url
+				return get_url(f"./payment-failed?error=duplicate")
+	else:
+		# Create new Integration Request
+		try:
+			create_order(payment_gateway, payment_details, controller)
+			url = controller.get_payment_url(**payment_details)
+			return url
+		except frappe.DuplicateEntryError:
+			# If duplicate entry error occurs, get the existing Integration Request
+			existing_integration = frappe.db.get_value(
+				"Integration Request",
+				{
+					"reference_doctype": doctype,
+					"reference_docname": docname,
+					"integration_request_service": payment_gateway,
+				},
+				"name",
+				order_by="creation desc",
+			)
+			if existing_integration:
+				if payment_gateway == "Manual Payment":
+					from urllib.parse import urlencode
+					from frappe.utils import get_url
+					return get_url(f"/manual_payment?{urlencode({'token': existing_integration, 'amount': payment_details['amount'], 'currency': currency, 'title': payment_details['title']})}")
+				elif payment_gateway == "Razorpay":
+					from frappe.utils import get_url
+					return get_url(f"./razorpay_checkout?token={existing_integration}")
+			raise
 
 
 def create_order(payment_gateway, payment_details, controller):
