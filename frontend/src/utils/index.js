@@ -397,7 +397,9 @@ export function getUserTimezone() {
 			throw Error('unsupported timezone')
 		}
 	} catch (error) {
-		console.error('Error getting timezone:', error)
+		console.log(
+			`[index.js] (Error getting timezone: ${error.message || error})`,
+		)
 		return null
 	}
 }
@@ -446,13 +448,13 @@ export function getSidebarLinks() {
 export function getFormattedDateRange(
 	startDate,
 	endDate,
-	format = 'DD MMM YYYY'
+	format = 'DD MMM YYYY',
 ) {
 	if (startDate === endDate) {
 		return dayjs(startDate).format(format)
 	}
 	return `${dayjs(startDate).format(format)} - ${dayjs(endDate).format(
-		format
+		format,
 	)}`
 }
 
@@ -484,14 +486,14 @@ export function singularize(word) {
 	}
 	return word.replace(
 		new RegExp(`(${Object.keys(endings).join('|')})$`),
-		(r) => endings[r]
+		(r) => endings[r],
 	)
 }
 
 export const validateFile = async (file, showToast = true) => {
 	const error = (msg) => {
 		if (showToast) toast.error(msg)
-		console.error(msg)
+		console.log(`[index.js] (File validation error: ${msg})`)
 		return msg
 	}
 
@@ -537,7 +539,7 @@ export const escapeHTML = (text) => {
 
 	return String(text).replace(
 		/[&<>"'`=]/g,
-		(char) => escape_html_mapping[char] || char
+		(char) => escape_html_mapping[char] || char,
 	)
 }
 
@@ -704,7 +706,9 @@ export const updateMetaInfo = (type, route, meta) => {
 		],
 	}).catch((error) => {
 		toast.error(__('Failed to update meta tags {0}').format(error))
-		console.error(error)
+		console.log(
+			`[index.js] (Failed to update meta tags: ${error.message || error})`,
+		)
 	})
 }
 
@@ -719,7 +723,9 @@ export const formatTimestamp = (seconds) => {
 const getRootNode = (selector = '#editor') => {
 	const root = document.querySelector(selector)
 	if (!root) {
-		console.warn(`Root node not found for selector: ${selector}`)
+		console.log(
+			`[index.js] (Root node not found for selector: ${selector})`,
+		)
 	}
 	return root
 }
@@ -763,7 +769,7 @@ const wrapRangeInHighlight = (
 	{ node, startIndex, endIndex },
 	color,
 	name,
-	scrollIntoView
+	scrollIntoView,
 ) => {
 	const range = document.createRange()
 	range.setStart(node, startIndex)
