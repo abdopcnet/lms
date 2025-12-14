@@ -151,7 +151,7 @@ const enrollInProgram = (close: () => void) => {
 		})
 		.catch((error: any) => {
 			toast.error(__('Failed to enroll in program: {0}').format(error.message))
-			console.error('Enrollment Error:', error)
+			console.log(`[ProgramEnrollment.vue] (Enrollment Error: ${error.message || error})`)
 		})
 }
 </script>
