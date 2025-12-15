@@ -402,7 +402,6 @@
 				</svg>
 			</div>
 			<h2 class="signup-title">{{ _("تسجيل المعلم") }}</h2>
-			<p class="signup-subtitle">{{ _("إنشاء حساب معلم") }}</p>
 		</div>
 
 		<form class="signup-form" data-form-type="teacher" role="form">
@@ -703,8 +702,10 @@
 
 <style>
 	.login-content {
-		padding-top: 25px;
-		padding-bottom: 25px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 
 	svg {
@@ -740,17 +741,15 @@
 
 	.back-btn {
 		position: absolute;
-		left: 16px;
-		top: -32px;
 		height: 30px;
 		width: 90px;
 		background: #f8fafc;
-		border: 2px solid rgba(247, 187, 196, 1);
+		border: 1px solid rgba(105, 116, 220, 1);
 		padding: 0px 10px;
 		border-radius: 8px;
 		font-size: 14px;
 		font-weight: 600;
-		color: #4a5568;
+		color: rgba(105, 116, 220, 1);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -773,17 +772,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
 	}
 
 	.header-icon.student-icon {
 		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-		box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
 	}
 
 	.header-icon.teacher-icon {
 		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-		box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
 	}
 
 	.header-icon svg {
@@ -821,7 +817,6 @@
 		border-radius: 8px;
 		padding: 10px 0px;
 		text-align: center;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 		transition: all 0.3s ease;
 		border: 2px solid transparent;
 		width: 311px;
@@ -829,7 +824,6 @@
 
 	.type-card:hover {
 		transform: translateY(-5px);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	}
 
 	.type-card[data-type="student"]:hover {
@@ -857,7 +851,6 @@
 		height: 40px;
 		margin-left: 135px;
 		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-		box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
 	}
 
 	.type-icon.teacher-icon {
@@ -865,7 +858,6 @@
 		margin-right: 84px;
 		font-size: 14px;
 		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-		box-shadow: 0 8px 20px rgba(250, 112, 154, 0.3);
 	}
 
 	.type-card:hover .type-icon {
@@ -923,7 +915,7 @@
 	.type-card[data-type="teacher"] .type-btn {
 		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 	}
-
+	/*
 	.type-btn:hover {
 		transform: translateY(-2px);
 		box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
@@ -935,7 +927,7 @@
 
 	.type-card[data-type="teacher"] .type-btn:hover {
 		box-shadow: 0 6px 20px rgba(250, 112, 154, 0.4);
-	}
+	} */
 
 	.registration-form {
 		max-width: 480px;
@@ -957,12 +949,12 @@
 	.signup-form {
 		background: white;
 		border-radius: 16px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
 		overflow: hidden;
 	}
 
 	.page-card-body {
-		padding: 20px;
+		padding: 0px 20px;
 	}
 
 	.form-group {
@@ -1003,7 +995,6 @@
 	.enhanced-select:focus {
 		outline: none;
 		border-color: #667eea;
-		box-shadow: 0 0 0 3px rgba(157, 173, 245, 0.1);
 	}
 
 	.enhanced-input::placeholder {
@@ -1015,7 +1006,11 @@
 		padding-bottom: 10px;
 		margin-bottom: 10px;
 		height: 40px;
-		box-shadow: 5px 0px 10px 1px rgba(87, 109, 219, 1);
+		box-shadow: rgba(0, 0, 0, 0) 0px 0px 10px 1px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		text-align: left;
 	}
 
 	#student_email {
@@ -1023,26 +1018,89 @@
 		padding-bottom: 10px;
 		margin-bottom: 10px;
 		height: 40px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		color: rgba(56, 56, 56, 1);
 	}
 
 	#student_mobile {
 		height: 40px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		border-width: 0px;
-		border-color: rgba(0, 0, 0, 0);
-		border-style: none;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		border-style: solid;
 		border-image: none;
 	}
 
 	#student_grade {
-		border-width: 0px;
-		border-color: rgba(0, 0, 0, 0);
-		border-style: none;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		border-style: solid;
 		border-image: none;
 		height: 40px;
 		padding-top: 10px;
 		padding-bottom: 10px;
+		background-color: unset;
+		background: unset;
+	}
+
+	#teacher_fullname {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		height: 40px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+	}
+
+	#teacher_email {
+		height: 40px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+	}
+
+	#teacher_mobile {
+		height: 40px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		border-style: solid;
+		border-image: none;
+		box-shadow: none;
+	}
+
+	#teacher_specialization {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		height: 40px;
+		margin-bottom: 10px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(105, 116, 220, 1);
+		color: rgba(105, 116, 220, 1);
+		box-shadow: none;
+	}
+
+	#teacher_experience {
+		border-color: rgba(118, 140, 235, 1);
+		border-width: 1px;
+		border-style: solid;
+		border-image: none;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		height: 40px;
+		background-color: unset;
+		background: unset;
 	}
 
 	.enhanced-select {
@@ -1132,14 +1190,20 @@
 	}
 
 	.page-card-actions {
-		padding: 25px 30px 30px;
-		background: #f8fafc;
-		border-top: 1px solid #e2e8f0;
+		padding: 15px 30px 15px;
+		background: unset;
+		border-top-width: 0px;
+		border-top-color: rgba(0, 0, 0, 0);
+		border-top-style: none;
+		border-image: none;
 	}
 
 	.btn-signup {
 		width: 100%;
-		padding: 15px 24px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		padding-left: 24px;
+		padding-right: 24px;
 		height: 40px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
@@ -1153,12 +1217,10 @@
 		align-items: center;
 		justify-content: center;
 		gap: 10px;
-		box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 	}
 
 	.btn-signup:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 	}
 
 	.btn-signup:active {
