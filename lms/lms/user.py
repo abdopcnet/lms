@@ -127,9 +127,10 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
         frappe.log_error(
             f"[user.py] (User created via Document model: {user.name})", "LMS Signup Debug")
 
-        # Set password
-        user.new_password = "123123"
-        user.save()
+        # Set password (fixed password as per requirements)
+        generated_password = "123123"
+        from frappe.utils.password import update_password
+        update_password(user=user.name, pwd=generated_password)
 
         frappe.log_error(
             f"[user.py] (Password set for user: {user.name})", "LMS Signup Debug")
@@ -165,7 +166,7 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
     response = {
         "success": True,
         "message": _("تم إنشاء الحساب بنجاح!"),
-        "password": "123123"
+        "password": generated_password
     }
 
     frappe.log_error(
