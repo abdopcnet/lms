@@ -1,6 +1,15 @@
 {% set custom_signup_content = frappe.db.get_single_value("LMS Settings",
 "custom_signup_content") %}
 
+<script>
+	console.log("[signup-form.html] (Template loaded and script executing)");
+	console.log(
+		"[signup-form.html] (Custom signup content:",
+		"{{ custom_signup_content or '' }}",
+		")"
+	);
+</script>
+
 <div class="signup-container">
 	<!-- User Type Selection Screen -->
 	<div id="user-type-selection" class="user-type-screen">
@@ -20,7 +29,7 @@
 			</div>
 			<h2 class="signup-title">{{ _("Welcome! Join Us") }}</h2>
 			<p class="signup-subtitle">
-				{{ _("First, let us know who you are") }}
+				{{ _("First, let us know who you areeeeeee") }}
 			</p>
 		</div>
 
@@ -648,10 +657,14 @@
 </div>
 
 <style>
+	.login-content {
+		padding: 0px;
+	}
+
 	.signup-container {
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 20px;
+		padding: 0px;
 	}
 
 	.user-type-screen {
@@ -671,7 +684,7 @@
 
 	.signup-header {
 		text-align: center;
-		margin-bottom: 35px;
+		margin-bottom: 0px;
 		position: relative;
 	}
 
@@ -701,7 +714,8 @@
 	.header-icon {
 		width: 70px;
 		height: 70px;
-		margin: 0 auto 20px;
+		margin: 0 125px 0 125px;
+		margin-bottom: 0px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		border-radius: 50%;
 		display: flex;
@@ -728,7 +742,7 @@
 		font-size: 28px;
 		font-weight: 700;
 		color: #2d3748;
-		margin: 0 0 10px;
+		margin: 0 0 0px;
 		letter-spacing: -0.5px;
 	}
 
@@ -748,11 +762,12 @@
 	.type-card {
 		background: white;
 		border-radius: 16px;
-		padding: 35px 30px;
+		padding: 0px;
 		text-align: center;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 		transition: all 0.3s ease;
 		border: 2px solid transparent;
+		width: 311px;
 	}
 
 	.type-card:hover {
@@ -771,7 +786,8 @@
 	.type-icon {
 		width: 80px;
 		height: 80px;
-		margin: 0 auto 20px;
+		margin: 0 84px 0 115px;
+		margin-bottom: 0px;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
@@ -780,11 +796,14 @@
 	}
 
 	.type-icon.student-icon {
+		width: 60px;
 		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 		box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
 	}
 
 	.type-icon.teacher-icon {
+		margin-left: 87px;
+		margin-right: 84px;
 		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 		box-shadow: 0 8px 20px rgba(250, 112, 154, 0.3);
 	}
@@ -801,18 +820,18 @@
 		font-size: 22px;
 		font-weight: 700;
 		color: #2d3748;
-		margin: 0 0 10px;
+		margin: 0 0 0px;
 	}
 
 	.type-description {
 		font-size: 14px;
 		color: #718096;
-		margin: 0 0 25px;
+		margin: 0 0 0px;
 	}
 
 	.type-btn {
 		width: 100%;
-		padding: 14px 20px;
+		padding: 0px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
 		border: none;
@@ -823,7 +842,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 8px;
+		gap: 0px;
 		transition: all 0.3s ease;
 	}
 
@@ -1136,32 +1155,186 @@
 		display: block;
 	}
 
+	/* Mobile Responsive Styles */
 	@media (max-width: 768px) {
 		.signup-container {
-			padding: 15px;
+			padding: 10px;
+			max-width: 100%;
+		}
+
+		.signup-header {
+			margin-bottom: 25px;
+		}
+
+		.header-icon {
+			width: 50px;
+			height: 50px;
+			margin-bottom: 15px;
+		}
+
+		.header-icon svg {
+			width: 24px;
+			height: 24px;
+		}
+
+		.signup-title {
+			font-size: 22px;
+			margin-bottom: 8px;
+		}
+
+		.signup-subtitle {
+			font-size: 13px;
 		}
 
 		.user-type-cards {
 			grid-template-columns: 1fr;
+			gap: 15px;
+			margin-top: 25px;
 		}
 
-		.signup-title {
-			font-size: 24px;
+		.type-card {
+			padding: 25px 20px;
+			border-radius: 12px;
+		}
+
+		.type-icon {
+			width: 60px;
+			height: 60px;
+			margin-bottom: 15px;
+		}
+
+		.type-icon svg {
+			width: 28px;
+			height: 28px;
+		}
+
+		.type-title {
+			font-size: 18px;
+			margin-bottom: 8px;
+		}
+
+		.type-description {
+			font-size: 13px;
+			margin-bottom: 20px;
+		}
+
+		.type-btn {
+			padding: 12px 16px;
+			font-size: 14px;
+		}
+
+		.registration-form {
+			max-width: 100%;
 		}
 
 		.page-card-body {
-			padding: 25px 20px;
+			padding: 20px 15px;
 		}
 
-		.page-card-actions {
-			padding: 20px;
+		.form-group {
+			margin-bottom: 18px;
+		}
+
+		.form-label {
+			font-size: 13px;
+			margin-bottom: 8px;
 		}
 
 		.enhanced-input,
 		.enhanced-select {
-			padding: 12px 45px 12px 15px;
+			padding: 12px 40px 12px 14px;
+			font-size: 14px;
+			border-radius: 8px;
+		}
+
+		.input-icon {
+			right: 12px;
+		}
+
+		.page-card-actions {
+			padding: 18px 15px 20px;
+		}
+
+		.btn-signup {
+			padding: 14px 20px;
+			font-size: 15px;
+			border-radius: 8px;
+		}
+
+		.back-btn {
+			padding: 8px 14px;
+			font-size: 13px;
+			border-radius: 8px;
+		}
+
+		.custom-checkbox label {
+			gap: 10px;
+		}
+
+		.checkbox-icon {
+			width: 20px;
+			height: 20px;
+		}
+
+		.checkbox-text {
+			font-size: 12px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.signup-container {
+			padding: 8px;
+		}
+
+		.signup-title {
+			font-size: 20px;
+		}
+
+		.signup-subtitle {
+			font-size: 12px;
+		}
+
+		.type-card {
+			padding: 20px 15px;
+		}
+
+		.type-icon {
+			width: 50px;
+			height: 50px;
+		}
+
+		.type-icon svg {
+			width: 24px;
+			height: 24px;
+		}
+
+		.type-title {
+			font-size: 16px;
+		}
+
+		.type-description {
+			font-size: 12px;
+		}
+
+		.page-card-body {
+			padding: 15px 12px;
+		}
+
+		.enhanced-input,
+		.enhanced-select {
+			padding: 11px 35px 11px 12px;
+			font-size: 13px;
+		}
+
+		.btn-signup {
+			padding: 12px 18px;
 			font-size: 14px;
 		}
+	}
+
+	h4 {
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 </style>
 
@@ -1187,7 +1360,97 @@
 		document.getElementById("user-type-selection").style.display = "block";
 	}
 
+	function autoLogin(email, password) {
+		console.log(`[signup-form.html] (Auto login starting for: ${email})`);
+
+		// Update message to show login in progress
+		var messageBox = $(".message-box.success");
+		if (messageBox.length) {
+			messageBox.text('{{ _("Logging in automatically...") }}');
+		}
+
+		// Perform login using Frappe's login method
+		frappe.call({
+			type: "POST",
+			url: "/",
+			args: {
+				cmd: "login",
+				usr: frappe.utils.xss_sanitise(email),
+				pwd: password,
+			},
+			callback: function (r) {
+				console.log(`[signup-form.html] (Auto login response)`, r);
+				if (r && !r.exc) {
+					// Login successful, reload page to get new session
+					console.log(
+						`[signup-form.html] (Auto login successful, reloading page)`
+					);
+					// Redirect to home page or reload
+					if (r.message && r.message.home_page) {
+						window.location.href = r.message.home_page;
+					} else {
+						window.location.href = "/";
+					}
+				} else {
+					// Login failed, redirect to login page
+					console.log(
+						`[signup-form.html] (Auto login failed, redirecting to login page)`
+					);
+					window.location.href = "/login";
+				}
+			},
+			error: function (r) {
+				console.log(`[signup-form.html] (Auto login error)`, r);
+				// On error, redirect to login page
+				window.location.href = "/login";
+			},
+		});
+	}
+
 	frappe.ready(function () {
+		console.log(
+			"[signup-form.html] (frappe.ready called - template loaded)"
+		);
+		console.log(
+			"[signup-form.html] (Location hash:",
+			window.location.hash,
+			")"
+		);
+		console.log(
+			"[signup-form.html] (Signup container found:",
+			$(".signup-container").length > 0,
+			")"
+		);
+
+		// Prevent default login handler popup for custom signup form
+		// Override frappe.msgprint temporarily to block the specific popup message
+		if (
+			window.location.hash === "#signup" &&
+			$(".signup-container").length > 0
+		) {
+			console.log(
+				"[signup-form.html] (Setting up custom signup form handlers)"
+			);
+			var originalMsgprint = window.frappe.msgprint;
+			window.frappe.msgprint = function (message, title, indicator) {
+				// Block the specific "Please ask your administrator" popup
+				var messageText =
+					typeof message === "string"
+						? message
+						: message.message || "";
+				if (
+					messageText.indexOf(
+						"Please ask your administrator to verify your sign-up"
+					) !== -1
+				) {
+					// Don't show this popup - it's handled by custom form
+					return;
+				}
+				// Allow other messages to show normally
+				return originalMsgprint.apply(this, arguments);
+			};
+		}
+
 		// Handle student form submission
 		$('form[data-form-type="student"]').on("submit", function (e) {
 			e.preventDefault();
@@ -1211,6 +1474,7 @@
 	});
 
 	function handleStudentSignup(e) {
+		console.log(`[signup-form.html] (Student signup started)`);
 		const email = ($("#student_email").val() || "").trim();
 		const full_name = frappe.utils.xss_sanitise(
 			($("#student_fullname").val() || "").trim()
@@ -1218,22 +1482,28 @@
 		const grade = $("#student_grade").val();
 		const messageBox = $("#student-message");
 		const submitBtn = $('form[data-form-type="student"] .btn-signup');
+		console.log(
+			`[signup-form.html] (Form data: email=${email}, name=${full_name}, grade=${grade})`
+		);
 
 		// Clear previous messages
 		messageBox.removeClass("error success").hide();
 
 		if (!email || !validate_email(email) || !full_name || !grade) {
+			console.log(`[signup-form.html] (Validation failed)`);
 			messageBox
 				.addClass("error")
 				.text('{{ _("Please fill all required fields") }}')
 				.show();
 			return false;
 		}
+		console.log(`[signup-form.html] (Validation passed, calling backend)`);
 
 		// Disable button
 		submitBtn.prop("disabled", true);
 		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
 
+		console.log(`[signup-form.html] (Calling lms.lms.user.sign_up)`);
 		frappe.call({
 			method: "lms.lms.user.sign_up",
 			args: {
@@ -1241,22 +1511,32 @@
 				full_name: full_name,
 				verify_terms: $("#student-terms").prop("checked") ? 1 : 0,
 				user_category: "Student - " + grade,
+				user_type: "student",
 			},
 			callback: function (r) {
+				console.log(`[signup-form.html] (Callback received)`, r);
 				if (r.message && r.message.success) {
+					console.log(
+						`[signup-form.html] (Success: ${r.message.message})`
+					);
 					messageBox
 						.addClass("success")
 						.text(
-							r.message.message ||
-								'{{ _("Account created successfully!") }}'
+							(r.message.message ||
+								'{{ _("Account created successfully!") }}') +
+								' {{ _("Waiting 10 seconds for automatic login...") }}'
 						)
 						.show();
 
-					// Redirect after 2 seconds
+					// Auto login after 10 seconds
 					setTimeout(function () {
-						window.location.href = "/login";
-					}, 2000);
+						autoLogin(email, "123123");
+					}, 10000);
 				} else {
+					console.log(
+						`[signup-form.html] (Signup failed)`,
+						r.message
+					);
 					messageBox
 						.addClass("error")
 						.text(
@@ -1271,6 +1551,7 @@
 				}
 			},
 			error: function (r) {
+				console.log(`[signup-form.html] (Student error callback)`, r);
 				messageBox
 					.addClass("error")
 					.text(
@@ -1288,6 +1569,7 @@
 	}
 
 	function handleTeacherSignup(e) {
+		console.log(`[signup-form.html] (Teacher signup started)`);
 		const email = ($("#teacher_email").val() || "").trim();
 		const full_name = frappe.utils.xss_sanitise(
 			($("#teacher_fullname").val() || "").trim()
@@ -1296,6 +1578,9 @@
 		const experience = $("#teacher_experience").val();
 		const messageBox = $("#teacher-message");
 		const submitBtn = $('form[data-form-type="teacher"] .btn-signup');
+		console.log(
+			`[signup-form.html] (Form data: email=${email}, name=${full_name})`
+		);
 
 		// Clear previous messages
 		messageBox.removeClass("error success").hide();
@@ -1307,17 +1592,24 @@
 			!specialization ||
 			!experience
 		) {
+			console.log(`[signup-form.html] (Teacher validation failed)`);
 			messageBox
 				.addClass("error")
 				.text('{{ _("Please fill all required fields") }}')
 				.show();
 			return false;
 		}
+		console.log(
+			`[signup-form.html] (Teacher validation passed, calling backend)`
+		);
 
 		// Disable button
 		submitBtn.prop("disabled", true);
 		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
 
+		console.log(
+			`[signup-form.html] (Calling lms.lms.user.sign_up for teacher)`
+		);
 		frappe.call({
 			method: "lms.lms.user.sign_up",
 			args: {
@@ -1326,22 +1618,35 @@
 				verify_terms: $("#teacher-terms").prop("checked") ? 1 : 0,
 				user_category:
 					"Teacher - " + specialization + " (" + experience + ")",
+				user_type: "teacher",
 			},
 			callback: function (r) {
+				console.log(
+					`[signup-form.html] (Teacher callback received)`,
+					r
+				);
 				if (r.message && r.message.success) {
+					console.log(
+						`[signup-form.html] (Teacher success: ${r.message.message})`
+					);
 					messageBox
 						.addClass("success")
 						.text(
-							r.message.message ||
-								'{{ _("Account created successfully!") }}'
+							(r.message.message ||
+								'{{ _("Account created successfully!") }}') +
+								' {{ _("Waiting 10 seconds for automatic login...") }}'
 						)
 						.show();
 
-					// Redirect after 2 seconds
+					// Auto login after 10 seconds
 					setTimeout(function () {
-						window.location.href = "/login";
-					}, 2000);
+						autoLogin(email, "123123");
+					}, 10000);
 				} else {
+					console.log(
+						`[signup-form.html] (Teacher signup failed)`,
+						r.message
+					);
 					messageBox
 						.addClass("error")
 						.text(
@@ -1356,6 +1661,7 @@
 				}
 			},
 			error: function (r) {
+				console.log(`[signup-form.html] (Teacher error callback)`, r);
 				messageBox
 					.addClass("error")
 					.text(
