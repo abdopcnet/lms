@@ -27,10 +27,8 @@
 					<circle cx="12" cy="7" r="4"></circle>
 				</svg>
 			</div>
-			<h2 class="signup-title">{{ _("Welcome! Join Us") }}</h2>
-			<p class="signup-subtitle">
-				{{ _("First, let us know who you areeeeeee") }}
-			</p>
+			<h2 class="signup-title">{{ _("مرحباً! انضم إلينا") }}</h2>
+			<p class="signup-subtitle">{{ _("أولاً، أخبرنا من أنت") }}</p>
 		</div>
 
 		<div class="user-type-cards">
@@ -48,12 +46,12 @@
 						<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
 					</svg>
 				</div>
-				<h3 class="type-title">{{ _("I'm a Student") }}</h3>
+				<h3 class="type-title">{{ _("أنا طالب") }}</h3>
 				<p class="type-description">
-					{{ _("Looking to learn and grow my skills") }}
+					{{ _("أرغب في التعلم وتطوير مهاراتي") }}
 				</p>
 				<button class="type-btn" onclick="selectUserType('student')">
-					{{ _("Continue as Student") }}
+					{{ _("المتابعة كطالب") }}
 					<svg
 						width="18"
 						height="18"
@@ -86,12 +84,12 @@
 						></path>
 					</svg>
 				</div>
-				<h3 class="type-title">{{ _("I'm a Teacher") }}</h3>
+				<h3 class="type-title">{{ _("أنا معلم") }}</h3>
 				<p class="type-description">
-					{{ _("Ready to share knowledge and teach") }}
+					{{ _("جاهز لمشاركة المعرفة والتدريس") }}
 				</p>
 				<button class="type-btn" onclick="selectUserType('teacher')">
-					{{ _("Continue as Teacher") }}
+					{{ _("المتابعة كمعلم") }}
 					<svg
 						width="18"
 						height="18"
@@ -121,7 +119,7 @@
 				>
 					<path d="M19 12H5M12 19l-7-7 7-7"></path>
 				</svg>
-				{{ _("Back") }}
+				{{ _("رجوع") }}
 			</button>
 			<div class="header-icon student-icon">
 				<svg
@@ -136,10 +134,8 @@
 					<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
 				</svg>
 			</div>
-			<h2 class="signup-title">{{ _("Student Registration") }}</h2>
-			<p class="signup-subtitle">
-				{{ _("Create your student account") }}
-			</p>
+			<h2 class="signup-title">{{ _("تسجيل الطالب") }}</h2>
+			<p class="signup-subtitle">{{ _("إنشاء حساب طالب") }}</p>
 		</div>
 
 		<form class="signup-form" data-form-type="student" role="form">
@@ -159,14 +155,14 @@
 							></path>
 							<circle cx="12" cy="7" r="4"></circle>
 						</svg>
-						{{ _("Full Name") }}
+						{{ _("الإسم") }}
 					</label>
 					<div class="input-with-icon">
 						<input
 							type="text"
 							id="student_fullname"
 							class="form-control enhanced-input"
-							placeholder="{{ _('Jane Doe') }}"
+							placeholder="{{ _('أدخل اسمك الكامل') }}"
 							required
 							autofocus
 						/>
@@ -203,14 +199,14 @@
 							></path>
 							<polyline points="22,6 12,13 2,6"></polyline>
 						</svg>
-						{{ _("Email") }}
+						{{ _("البريد") }}
 					</label>
 					<div class="input-with-icon">
 						<input
 							type="email"
 							id="student_email"
 							class="form-control enhanced-input"
-							placeholder="{{ _('jane@example.com') }}"
+							placeholder="{{ _('example@email.com') }}"
 							required
 						/>
 						<div class="input-icon">
@@ -226,6 +222,46 @@
 									d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
 								></path>
 								<polyline points="22,6 12,13 2,6"></polyline>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="student_mobile">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+							></path>
+						</svg>
+						{{ _("الجوال") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="tel"
+							id="student_mobile"
+							class="form-control enhanced-input"
+							placeholder="{{ _('05xxxxxxxx') }}"
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+								></path>
 							</svg>
 						</div>
 					</div>
@@ -248,7 +284,7 @@
 								d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
 							></path>
 						</svg>
-						{{ _("Grade/Level") }}
+						{{ _("المستوى الدراسي") }}
 					</label>
 					<div class="input-with-icon">
 						<select
@@ -257,18 +293,18 @@
 							required
 						>
 							<option value="">
-								{{ _("Select your grade") }}
+								{{ _("اختر مستواك الدراسي") }}
 							</option>
 							<option value="High School">
-								{{ _("High School") }}
+								{{ _("ثانوي") }}
 							</option>
 							<option value="University - Undergraduate">
-								{{ _("University - Undergraduate") }}
+								{{ _("جامعي - بكالوريوس") }}
 							</option>
 							<option value="University - Graduate">
-								{{ _("University - Graduate") }}
+								{{ _("جامعي - دراسات عليا") }}
 							</option>
-							<option value="Other">{{ _("Other") }}</option>
+							<option value="Other">{{ _("أخرى") }}</option>
 						</select>
 						<div class="input-icon select-icon">
 							<svg
@@ -315,9 +351,7 @@
 
 			<div class="page-card-actions">
 				<button class="btn-signup" type="submit">
-					<span class="btn-text"
-						>{{ _("Create Student Account") }}</span
-					>
+					<span class="btn-text">{{ _("إنشاء حساب طالب") }}</span>
 					<svg
 						class="btn-icon"
 						width="20"
@@ -332,7 +366,7 @@
 				</button>
 
 				<div class="divider">
-					<span>{{ _("or") }}</span>
+					<span>{{ _("أو") }}</span>
 				</div>
 
 				<p class="login-link">
@@ -351,7 +385,7 @@
 						<line x1="15" y1="12" x2="3" y2="12"></line>
 					</svg>
 					<a href="#login"
-						>{{ _("Already have an account? Login") }}</a
+						>{{ _("لديك حساب بالفعل؟ تسجيل الدخول") }}</a
 					>
 				</p>
 			</div>
@@ -374,7 +408,7 @@
 				>
 					<path d="M19 12H5M12 19l-7-7 7-7"></path>
 				</svg>
-				{{ _("Back") }}
+				{{ _("رجوع") }}
 			</button>
 			<div class="header-icon teacher-icon">
 				<svg
@@ -392,10 +426,8 @@
 					></path>
 				</svg>
 			</div>
-			<h2 class="signup-title">{{ _("Teacher Registration") }}</h2>
-			<p class="signup-subtitle">
-				{{ _("Create your teacher account") }}
-			</p>
+			<h2 class="signup-title">{{ _("تسجيل المعلم") }}</h2>
+			<p class="signup-subtitle">{{ _("إنشاء حساب معلم") }}</p>
 		</div>
 
 		<form class="signup-form" data-form-type="teacher" role="form">
@@ -415,14 +447,14 @@
 							></path>
 							<circle cx="12" cy="7" r="4"></circle>
 						</svg>
-						{{ _("Full Name") }}
+						{{ _("الإسم") }}
 					</label>
 					<div class="input-with-icon">
 						<input
 							type="text"
 							id="teacher_fullname"
 							class="form-control enhanced-input"
-							placeholder="{{ _('John Smith') }}"
+							placeholder="{{ _('أدخل اسمك الكامل') }}"
 							required
 							autofocus
 						/>
@@ -459,14 +491,14 @@
 							></path>
 							<polyline points="22,6 12,13 2,6"></polyline>
 						</svg>
-						{{ _("Email") }}
+						{{ _("البريد") }}
 					</label>
 					<div class="input-with-icon">
 						<input
 							type="email"
 							id="teacher_email"
 							class="form-control enhanced-input"
-							placeholder="{{ _('john@example.com') }}"
+							placeholder="{{ _('example@email.com') }}"
 							required
 						/>
 						<div class="input-icon">
@@ -488,6 +520,46 @@
 				</div>
 
 				<div class="form-group">
+					<label class="form-label" for="teacher_mobile">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+							></path>
+						</svg>
+						{{ _("الجوال") }}
+					</label>
+					<div class="input-with-icon">
+						<input
+							type="tel"
+							id="teacher_mobile"
+							class="form-control enhanced-input"
+							placeholder="{{ _('05xxxxxxxx') }}"
+						/>
+						<div class="input-icon">
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+								></path>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="form-label" for="teacher_specialization">
 						<svg
 							width="16"
@@ -501,14 +573,14 @@
 								d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
 							></path>
 						</svg>
-						{{ _("Subject/Specialization") }}
+						{{ _("التخصص/المادة") }}
 					</label>
 					<div class="input-with-icon">
 						<input
 							type="text"
 							id="teacher_specialization"
 							class="form-control enhanced-input"
-							placeholder="{{ _('e.g., Mathematics, Science, History...') }}"
+							placeholder="{{ _('مثال: الرياضيات، العلوم، التاريخ...') }}"
 							required
 						/>
 						<div class="input-icon">
@@ -541,7 +613,7 @@
 							<circle cx="12" cy="12" r="10"></circle>
 							<polyline points="12 6 12 12 16 14"></polyline>
 						</svg>
-						{{ _("Years of Experience") }}
+						{{ _("سنوات الخبرة") }}
 					</label>
 					<div class="input-with-icon">
 						<select
@@ -550,19 +622,19 @@
 							required
 						>
 							<option value="">
-								{{ _("Select experience") }}
+								{{ _("اختر سنوات الخبرة") }}
 							</option>
 							<option value="0-2 years">
-								{{ _("0-2 years") }}
+								{{ _("0-2 سنوات") }}
 							</option>
 							<option value="3-5 years">
-								{{ _("3-5 years") }}
+								{{ _("3-5 سنوات") }}
 							</option>
 							<option value="6-10 years">
-								{{ _("6-10 years") }}
+								{{ _("6-10 سنوات") }}
 							</option>
 							<option value="10+ years">
-								{{ _("10+ years") }}
+								{{ _("أكثر من 10 سنوات") }}
 							</option>
 						</select>
 						<div class="input-icon select-icon">
@@ -610,9 +682,7 @@
 
 			<div class="page-card-actions">
 				<button class="btn-signup" type="submit">
-					<span class="btn-text"
-						>{{ _("Create Teacher Account") }}</span
-					>
+					<span class="btn-text">{{ _("إنشاء حساب معلم") }}</span>
 					<svg
 						class="btn-icon"
 						width="20"
@@ -627,7 +697,7 @@
 				</button>
 
 				<div class="divider">
-					<span>{{ _("or") }}</span>
+					<span>{{ _("أو") }}</span>
 				</div>
 
 				<p class="login-link">
@@ -646,7 +716,7 @@
 						<line x1="15" y1="12" x2="3" y2="12"></line>
 					</svg>
 					<a href="#login"
-						>{{ _("Already have an account? Login") }}</a
+						>{{ _("لديك حساب بالفعل؟ تسجيل الدخول") }}</a
 					>
 				</p>
 			</div>
@@ -1366,7 +1436,7 @@
 		// Update message to show login in progress
 		var messageBox = $(".message-box.success");
 		if (messageBox.length) {
-			messageBox.text('{{ _("Logging in automatically...") }}');
+			messageBox.text('{{ _("جاري تسجيل الدخول تلقائياً...") }}');
 		}
 
 		// Perform login using Frappe's login method
@@ -1480,10 +1550,11 @@
 			($("#student_fullname").val() || "").trim()
 		);
 		const grade = $("#student_grade").val();
+		const mobile_no = ($("#student_mobile").val() || "").trim();
 		const messageBox = $("#student-message");
 		const submitBtn = $('form[data-form-type="student"] .btn-signup');
 		console.log(
-			`[signup-form.html] (Form data: email=${email}, name=${full_name}, grade=${grade})`
+			`[signup-form.html] (Form data: email=${email}, name=${full_name}, grade=${grade}, mobile=${mobile_no})`
 		);
 
 		// Clear previous messages
@@ -1493,7 +1564,7 @@
 			console.log(`[signup-form.html] (Validation failed)`);
 			messageBox
 				.addClass("error")
-				.text('{{ _("Please fill all required fields") }}')
+				.text('{{ _("يرجى ملء جميع الحقول المطلوبة") }}')
 				.show();
 			return false;
 		}
@@ -1501,7 +1572,7 @@
 
 		// Disable button
 		submitBtn.prop("disabled", true);
-		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
+		submitBtn.find(".btn-text").text('{{ _("جاري إنشاء الحساب...") }}');
 
 		console.log(`[signup-form.html] (Calling lms.lms.user.sign_up)`);
 		frappe.call({
@@ -1512,6 +1583,7 @@
 				verify_terms: $("#student-terms").prop("checked") ? 1 : 0,
 				user_category: "Student - " + grade,
 				user_type: "student",
+				mobile_no: mobile_no || null,
 			},
 			callback: function (r) {
 				console.log(`[signup-form.html] (Callback received)`, r);
@@ -1541,13 +1613,13 @@
 						.addClass("error")
 						.text(
 							r.message ||
-								'{{ _("Registration failed. Please try again.") }}'
+								'{{ _("فشل التسجيل. يرجى المحاولة مرة أخرى.") }}'
 						)
 						.show();
 					submitBtn.prop("disabled", false);
 					submitBtn
 						.find(".btn-text")
-						.text('{{ _("Create Student Account") }}');
+						.text('{{ _("إنشاء حساب طالب") }}');
 				}
 			},
 			error: function (r) {
@@ -1556,7 +1628,7 @@
 					.addClass("error")
 					.text(
 						r.message ||
-							'{{ _("An error occurred. Please try again.") }}'
+							'{{ _("حدث خطأ. يرجى المحاولة مرة أخرى.") }}'
 					)
 					.show();
 				submitBtn.prop("disabled", false);
@@ -1576,10 +1648,11 @@
 		);
 		const specialization = $("#teacher_specialization").val();
 		const experience = $("#teacher_experience").val();
+		const mobile_no = ($("#teacher_mobile").val() || "").trim();
 		const messageBox = $("#teacher-message");
 		const submitBtn = $('form[data-form-type="teacher"] .btn-signup');
 		console.log(
-			`[signup-form.html] (Form data: email=${email}, name=${full_name})`
+			`[signup-form.html] (Form data: email=${email}, name=${full_name}, mobile=${mobile_no})`
 		);
 
 		// Clear previous messages
@@ -1595,7 +1668,7 @@
 			console.log(`[signup-form.html] (Teacher validation failed)`);
 			messageBox
 				.addClass("error")
-				.text('{{ _("Please fill all required fields") }}')
+				.text('{{ _("يرجى ملء جميع الحقول المطلوبة") }}')
 				.show();
 			return false;
 		}
@@ -1605,7 +1678,7 @@
 
 		// Disable button
 		submitBtn.prop("disabled", true);
-		submitBtn.find(".btn-text").text('{{ _("Creating account...") }}');
+		submitBtn.find(".btn-text").text('{{ _("جاري إنشاء الحساب...") }}');
 
 		console.log(
 			`[signup-form.html] (Calling lms.lms.user.sign_up for teacher)`
@@ -1619,6 +1692,7 @@
 				user_category:
 					"Teacher - " + specialization + " (" + experience + ")",
 				user_type: "teacher",
+				mobile_no: mobile_no || null,
 			},
 			callback: function (r) {
 				console.log(
@@ -1651,13 +1725,13 @@
 						.addClass("error")
 						.text(
 							r.message ||
-								'{{ _("Registration failed. Please try again.") }}'
+								'{{ _("فشل التسجيل. يرجى المحاولة مرة أخرى.") }}'
 						)
 						.show();
 					submitBtn.prop("disabled", false);
 					submitBtn
 						.find(".btn-text")
-						.text('{{ _("Create Teacher Account") }}');
+						.text('{{ _("إنشاء حساب معلم") }}');
 				}
 			},
 			error: function (r) {
@@ -1666,7 +1740,7 @@
 					.addClass("error")
 					.text(
 						r.message ||
-							'{{ _("An error occurred. Please try again.") }}'
+							'{{ _("حدث خطأ. يرجى المحاولة مرة أخرى.") }}'
 					)
 					.show();
 				submitBtn.prop("disabled", false);
