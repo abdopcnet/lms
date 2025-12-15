@@ -38,7 +38,21 @@ def after_insert(doc, method):
 
 
 @frappe.whitelist(allow_guest=True)
-def sign_up(email, full_name, verify_terms, user_category, user_type="student"):
+				# email: email,
+				# full_name: full_name,
+				# verify_terms: $("#teacher-terms").prop("checked") ? 1 : 0,
+				# user_category:
+				# 	"Teacher - " + specialization + " (" + experience + ")",
+				# user_type: "teacher",
+				# mobile_no: mobile_no || null,
+
+				# email: email,
+				# full_name: full_name,
+				# verify_terms: $("#student-terms").prop("checked") ? 1 : 0,
+				# user_category: "Student - " + grade,
+				# user_type: "student",
+				# mobile_no: mobile_no || null,
+def sign_up(email, full_name, verify_terms, user_category, user_type="student", mobile_no=None):
     frappe.log_error(
         f"[user.py] (Signup started for: {email}, type: {user_type})", "LMS Signup Debug")
 
@@ -82,21 +96,42 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student"):
     user = None
 
     try:
+        # Generate username from full_name
+        username = cleanup_page_name(full_name)
+        if " " in username:
+            username = username.replace(" ", "")
+
+        # Ensure username is at least 4 characters
+        if len(username) < 4:
+            username = user_name.replace("@", "").replace(".", "")
+
+        # Check if username exists and append number if needed
+        username = append_number_if_name_exists(
+            "User", username, fieldname="username")
+
         # Insert user directly using SQL to bypass all hooks
         # Set send_welcome_email=0 explicitly to prevent email sending
+        mobile_no_escaped = escape_html(
+            mobile_no.strip()) if mobile_no and mobile_no.strip() else None
+        verify_terms_value = 1 if verify_terms else 0
+        user_category_escaped = escape_html(
+            user_category) if user_category else None
         frappe.db.sql("""
             INSERT INTO `tabUser` (
-                name, email, first_name, full_name, enabled,
-                send_welcome_email, user_type, country, time_zone,
+                name, email, first_name, full_name, username, enabled,
+                send_welcome_email, user_type, country, time_zone, mobile_no,
+                verify_terms, user_category,
                 creation, modified, owner, modified_by, docstatus, idx
             ) VALUES (
-                %s, %s, %s, %s, %s,
-                0, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s,
+                0, %s, %s, %s, %s,
+                %s, %s,
                 %s, %s, %s, %s, 0, 0
             )
         """, (
-            user_name, user_name, first_name_escaped, first_name_escaped, 1,
-            "Website User", "", time_zone,
+            user_name, user_name, first_name_escaped, first_name_escaped, username, 1,
+            "Website User", "", time_zone, mobile_no_escaped,
+            verify_terms_value, user_category_escaped,
             now, now, "Administrator", "Administrator"
         ))
 
