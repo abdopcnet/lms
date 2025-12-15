@@ -97,8 +97,23 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
             user.phone = mobile_no.strip()
         if verify_terms:
             user.verify_terms = 1
-        if user_category:
-            user.user_category = user_category
+
+        # Map user_category to valid Select field options
+        # Valid options: "", "Business Owner", "Manager (Sales/Marketing/Customer)",
+        # "Employee", "Student", "Freelancer/Just looking", "Others"
+        if user_type.lower() == "student":
+            user.user_category = "Student"
+        elif user_type.lower() == "teacher":
+            user.user_category = "Employee"  # Teachers are employees
+        elif user_category:
+            # If user_category is provided and matches a valid option, use it
+            valid_options = ["", "Business Owner", "Manager (Sales/Marketing/Customer)",
+                             "Employee", "Student", "Freelancer/Just looking", "Others"]
+            if user_category in valid_options:
+                user.user_category = user_category
+            else:
+                # Default to empty if invalid
+                user.user_category = ""
 
         # Set flags to prevent email sending
         user.flags.no_welcome_mail = True
