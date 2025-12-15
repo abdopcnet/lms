@@ -164,7 +164,8 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
 
     response = {
         "success": True,
-        "message": _("Account created successfully! Your password is: 123123")
+        "message": _("تم إنشاء الحساب بنجاح!"),
+        "password": "123123"
     }
 
     frappe.log_error(
