@@ -68,8 +68,8 @@
 			<div class="type-card" data-type="teacher">
 				<div class="type-icon teacher-icon">
 					<svg
-						width="40"
-						height="40"
+						width="35"
+						height="35"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
@@ -854,9 +854,9 @@
 	}
 
 	.type-icon {
-		width: 80px;
-		height: 80px;
-		margin: 0 84px 0 115px;
+		width: 40px;
+		height: 40px;
+		margin: 0 84px 0 135px;
 		margin-bottom: 0px;
 		border-radius: 50%;
 		display: flex;
@@ -866,7 +866,9 @@
 	}
 
 	.type-icon.student-icon {
-		width: 60px;
+		width: 40px;
+		height: 40px;
+		margin-left: 135px;
 		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 		box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
 	}
@@ -901,6 +903,7 @@
 
 	.type-btn {
 		width: 100%;
+		height: 40px;
 		padding: 0px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
@@ -1223,6 +1226,18 @@
 		color: #22543d;
 		border: 1px solid #9ae6b4;
 		display: block;
+	}
+
+	.password-display {
+		font-size: 28px;
+		font-weight: 700;
+		color: #22543d;
+		letter-spacing: 2px;
+		display: inline-block;
+		padding: 4px 12px;
+		background: rgba(255, 255, 255, 0.5);
+		border-radius: 6px;
+		margin: 0 4px;
 	}
 
 	/* Mobile Responsive Styles */
@@ -1591,12 +1606,20 @@
 					console.log(
 						`[signup-form.html] (Success: ${r.message.message})`
 					);
+					const password = r.message.password || "123123";
+					const messageText =
+						r.message.message ||
+						'{{ _("تم إنشاء الحساب بنجاح!") }}';
 					messageBox
 						.addClass("success")
-						.text(
-							(r.message.message ||
-								'{{ _("Account created successfully!") }}') +
-								' {{ _("Waiting 10 seconds for automatic login...") }}'
+						.html(
+							messageText +
+								"<br><br>" +
+								'{{ _("كلمة المرور الخاصة بك:") }} ' +
+								'<span class="password-display">' +
+								password +
+								"</span><br><br>" +
+								'<small>{{ _("انتظر 10 ثوانٍ لتسجيل الدخول التلقائي...") }}</small>'
 						)
 						.show();
 
@@ -1703,12 +1726,20 @@
 					console.log(
 						`[signup-form.html] (Teacher success: ${r.message.message})`
 					);
+					const password = r.message.password || "123123";
+					const messageText =
+						r.message.message ||
+						'{{ _("تم إنشاء الحساب بنجاح!") }}';
 					messageBox
 						.addClass("success")
-						.text(
-							(r.message.message ||
-								'{{ _("Account created successfully!") }}') +
-								' {{ _("Waiting 10 seconds for automatic login...") }}'
+						.html(
+							messageText +
+								"<br><br>" +
+								'{{ _("كلمة المرور الخاصة بك:") }} ' +
+								'<span class="password-display">' +
+								password +
+								"</span><br><br>" +
+								'<small>{{ _("انتظر 10 ثوانٍ لتسجيل الدخول التلقائي...") }}</small>'
 						)
 						.show();
 
