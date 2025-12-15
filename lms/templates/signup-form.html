@@ -13,24 +13,6 @@
 <div class="signup-container">
 	<!-- User Type Selection Screen -->
 	<div id="user-type-selection" class="user-type-screen">
-		<div class="signup-header">
-			<div class="header-icon">
-				<svg
-					width="32"
-					height="32"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-				>
-					<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-					<circle cx="12" cy="7" r="4"></circle>
-				</svg>
-			</div>
-			<h2 class="signup-title">{{ _("مرحباً! انضم إلينا") }}</h2>
-			<p class="signup-subtitle">{{ _("أولاً، أخبرنا من أنت") }}</p>
-		</div>
-
 		<div class="user-type-cards">
 			<div class="type-card" data-type="student">
 				<div class="type-icon student-icon">
@@ -46,10 +28,7 @@
 						<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
 					</svg>
 				</div>
-				<h3 class="type-title">{{ _("أنا طالب") }}</h3>
-				<p class="type-description">
-					{{ _("أرغب في التعلم وتطوير مهاراتي") }}
-				</p>
+
 				<button class="type-btn" onclick="selectUserType('student')">
 					{{ _("المتابعة كطالب") }}
 					<svg
@@ -84,10 +63,7 @@
 						></path>
 					</svg>
 				</div>
-				<h3 class="type-title">{{ _("أنا معلم") }}</h3>
-				<p class="type-description">
-					{{ _("جاهز لمشاركة المعرفة والتدريس") }}
-				</p>
+
 				<button class="type-btn" onclick="selectUserType('teacher')">
 					{{ _("المتابعة كمعلم") }}
 					<svg
@@ -135,7 +111,6 @@
 				</svg>
 			</div>
 			<h2 class="signup-title">{{ _("تسجيل الطالب") }}</h2>
-			<p class="signup-subtitle">{{ _("إنشاء حساب طالب") }}</p>
 		</div>
 
 		<form class="signup-form" data-form-type="student" role="form">
@@ -728,18 +703,23 @@
 
 <style>
 	.login-content {
-		padding: 0px;
+		padding-top: 25px;
+		padding-bottom: 25px;
+	}
+
+	svg {
+		margin-top: 0px;
 	}
 
 	.signup-container {
-		max-width: 900px;
+		max-width: 500px;
 		margin: 0 auto;
 		padding: 0px;
 	}
 
-	.user-type-screen {
+	/* .user-type-screen {
 		animation: fadeIn 0.5s ease;
-	}
+	} */
 
 	@keyframes fadeIn {
 		from {
@@ -760,12 +740,14 @@
 
 	.back-btn {
 		position: absolute;
-		left: 0;
-		top: 0;
+		left: 16px;
+		top: -32px;
+		height: 30px;
+		width: 90px;
 		background: #f8fafc;
-		border: 2px solid #e2e8f0;
-		padding: 10px 18px;
-		border-radius: 10px;
+		border: 2px solid rgba(247, 187, 196, 1);
+		padding: 0px 10px;
+		border-radius: 8px;
 		font-size: 14px;
 		font-weight: 600;
 		color: #4a5568;
@@ -782,12 +764,12 @@
 	}
 
 	.header-icon {
-		width: 70px;
-		height: 70px;
-		margin: 0 125px 0 125px;
+		width: 40px;
+		height: 40px;
+		margin: 0 135px 0 135px;
 		margin-bottom: 0px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		border-radius: 50%;
+		border-radius: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -826,13 +808,18 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 25px;
-		margin-top: 40px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+		width: 320px;
+		height: 230px;
 	}
 
 	.type-card {
 		background: white;
-		border-radius: 16px;
-		padding: 0px;
+		border-radius: 8px;
+		padding: 10px 0px;
 		text-align: center;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 		transition: all 0.3s ease;
@@ -874,8 +861,9 @@
 	}
 
 	.type-icon.teacher-icon {
-		margin-left: 87px;
+		margin-left: 135px;
 		margin-right: 84px;
+		font-size: 14px;
 		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 		box-shadow: 0 8px 20px rgba(250, 112, 154, 0.3);
 	}
@@ -886,6 +874,11 @@
 
 	.type-icon svg {
 		color: white;
+	}
+
+	.type-icon.teacher-icon svg {
+		height: 35px;
+		width: 35px;
 	}
 
 	.type-title {
@@ -902,7 +895,7 @@
 	}
 
 	.type-btn {
-		width: 100%;
+		width: 250px;
 		height: 40px;
 		padding: 0px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -916,6 +909,10 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+		margin-left: 30px;
+		margin-right: 30px;
 		transition: all 0.3s ease;
 	}
 
@@ -965,7 +962,7 @@
 	}
 
 	.page-card-body {
-		padding: 30px;
+		padding: 20px;
 	}
 
 	.form-group {
@@ -1006,11 +1003,46 @@
 	.enhanced-select:focus {
 		outline: none;
 		border-color: #667eea;
-		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+		box-shadow: 0 0 0 3px rgba(157, 173, 245, 0.1);
 	}
 
 	.enhanced-input::placeholder {
 		color: #a0aec0;
+	}
+
+	#student_fullname {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		height: 40px;
+		box-shadow: 5px 0px 10px 1px rgba(87, 109, 219, 1);
+	}
+
+	#student_email {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		height: 40px;
+	}
+
+	#student_mobile {
+		height: 40px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-width: 0px;
+		border-color: rgba(0, 0, 0, 0);
+		border-style: none;
+		border-image: none;
+	}
+
+	#student_grade {
+		border-width: 0px;
+		border-color: rgba(0, 0, 0, 0);
+		border-style: none;
+		border-image: none;
+		height: 40px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 	.enhanced-select {
@@ -1107,7 +1139,8 @@
 
 	.btn-signup {
 		width: 100%;
-		padding: 16px 24px;
+		padding: 15px 24px;
+		height: 40px;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
 		border: none;
@@ -1274,7 +1307,10 @@
 		.user-type-cards {
 			grid-template-columns: 1fr;
 			gap: 15px;
-			margin-top: 25px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			margin-left: 10px;
+			margin-right: 10px;
 		}
 
 		.type-card {
@@ -1625,7 +1661,8 @@
 
 					// Auto login after 10 seconds
 					setTimeout(function () {
-						autoLogin(email, "123123");
+						const password = r.message.password || "123123";
+						autoLogin(email, password);
 					}, 10000);
 				} else {
 					console.log(
@@ -1745,7 +1782,8 @@
 
 					// Auto login after 10 seconds
 					setTimeout(function () {
-						autoLogin(email, "123123");
+						const password = r.message.password || "123123";
+						autoLogin(email, password);
 					}, 10000);
 				} else {
 					console.log(
