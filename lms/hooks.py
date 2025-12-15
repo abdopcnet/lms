@@ -20,25 +20,13 @@ app_license = "AGPL"
 
 # include js, css files in header of web template
 
-web_include_css = "style.css"
+web_include_css = "lms.bundle.css"
 # web_include_css = "/assets/lms/css/lms.css"
 web_include_js = []
 
-# include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "lms/public/scss/website"
-
-# include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
-# webform_include_css = {"doctype": "public/css/doctype.css"}
-
-# include js in page
-# page_js = {"page" : "public/js/file.js"}
-
-# include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+app_include_css = [
+    "login_bundle.css"
+]
 
 # Home Pages
 # ----------
