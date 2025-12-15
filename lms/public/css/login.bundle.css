@@ -28,68 +28,115 @@ body {
 }
 
 /* Heading styling */
-/* .for-login h4 {
-/* 	width: 100%; /* التأكد من أن العنوان يأخذ العرض المتاح بالكامل */
-/* 	text-align: center; /* توسيط النص */
-/* 	margin-bottom: 20px; /* مسافة أسفل العنوان */
-/* 	color: #191970; /* لون كحلي غامق */
-/* 	font-weight: 900; /* جعل الخط أكثر عتامة */
-/* 	font-size: 1.8em; /* تكبير حجم الخط قليلاً */
-/* 	letter-spacing: 1.5px; /* إضافة تباعد بين الأحرف للتميز */
-/* 	text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* ظل خفيف للنص بشكل افتراضي */
-/* 	transition: text-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* انتقال سلس لتأثير التحويم */
-/* }
+.for-login h4 {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+	color: #000116;
+	font-weight: 900;
+	font-size: 1.8em;
+	letter-spacing: 1.5px;
+	text-shadow: 0px 2px 4px rgba(0, 0, 0, 0);
+}
 
 /* Glowing effect on hover */
 .for-login h4:hover {
-	text-shadow: 0 0 10px #4169e1, /* إشعاع أزرق ملكي */ 0 0 20px #4169e1,
-		0 0 30px #4169e1, 0 0 40px #000080; /* إشعاع كحلي أعمق */
-	transform: scale(1.05); /* تكبير طفيف عند التحويم */
+	text-shadow: 0 0 10px #ffffff, /* إشعاع أزرق ملكي */ 0 0 20px #ffffff,
+		0 0 30px #ffffff, 0 0 40px #ffffff; /* إشعاع كحلي أعمق */
 }
 
-/* Page card styling */
+.form-group .email-field .form-control {
+	height: 40px;
+	margin: 0;
+}
+.password-field .form-control {
+	height: 40px;
+	margin-bottom: 0;
+}
+
 .for-login .page-card {
-	background-color: rgba(
-		255,
-		255,
-		255,
-		0.9
-	); /* خلفية بيضاء شبه شفافة للبطاقة */
-	border-radius: 15px; /* حواف مستديرة للبطاقة */
-	padding: 25px; /* حشوة داخل البطاقة (تم تصغيرها) */
-	box-shadow: 0px 0px 10px 1px rgba(149, 61, 61, 0.41) !important; /* الظل الأولي */
-	transition: box-shadow 0.3s ease; /* انتقال سلس لتأثير التحويم */
-	width: 100%; /* أخذ العرض الكامل للعنصر الأب */
-	max-width: 400px; /* أقصى عرض للشاشات الكبيرة (تم تصغيره) */
-	margin: 0 auto; /* توسيط البطاقة */
+	border-radius: 15px;
+	background-color: rgba(253, 253, 253, 0.63);
+	padding: 25px;
+	width: 100%;
+	max-width: 400px;
+	margin: 0 auto;
+	height: 400px;
+	border-radius: 6px 6px 0 0;
 }
 
 .for-login .page-card:hover {
-	box-shadow: 0px 0px 10px 1px #466a47 !important; /* ظل عند التحويم */
+	box-shadow: 0px 0px 10px 1px #6878e2 !important; /* ظل عند التحويم */
 }
 
 /* Form group styling */
 .form-group {
-	margin-bottom: 15px; /* مسافة بين مجموعات النموذج */
+	margin-bottom: 15p#d11313 * مسافة بين مجموعات النموذج * /;
 }
 
 /* Input field styling */
 .form-control {
 	width: 100%; /* المدخلات تأخذ العرض الكامل للعنصر الأب */
 	padding: 10px 15px; /* حشوة داخل المدخلات */
-	border: 1px solid #ddd; /* حدود رمادية فاتحة */
+	border: 1px solid #fff; /* حدود رمادية فاتحة */
 	border-radius: 8px; /* حواف مستديرة للمدخلات */
-	box-shadow: 0px 0px 10px 1px rgba(149, 61, 61, 0.41) !important; /* الظل الأولي */
-	transition: box-shadow 0.3s ease; /* انتقال سلس لتأثير التحويم */
+	box-shadow: 0px 0px 10px 1px rgba(149, 61, 61, 0.41) !important;
 }
 
 .form-control:focus {
-	outline: none; /* إزالة التحديد الافتراضي عند التركيز */
-	border-color: #678fb1; /* تمييز الحدود عند التركيز */
+	outline: none;
+	border-color: #6878e2;
+}
+.page-card-body .page-card-actions {
+	margin: 0px;
+	padding: 0;
+	width: 250px;
+}
+
+.social-logins {
+	margin-bottom: 0px;
+}
+
+.login-divider {
+	display: none;
+}
+
+.for-login .sign-up-message {
+	margin-top: 0px;
+	background-color: rgba(29, 148, 76, 0.84);
+	color: white;
+	border: none;
+	padding: 20px 50px 10px 55px !important;
+	font-size: 16px;
+	border-radius: 0 0 6px 6px;
+	cursor: pointer;
+	font-family: "Tajawal", Tahoma, Geneva, Verdana, sans-serif;
+	direction: rtl;
+	text-align: center;
+	display: inline-block;
+	font-weight: 500;
+	line-height: 1.5;
+
+	/* إخفاء المحتوى الأصلي من HTML */
+	text-indent: -9999px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.for-login .sign-up-message:hover {
+	box-shadow: rgba(29, 148, 76, 0.84);
+}
+/* عرض النص الجديد عبر CSS */
+.for-login .sign-up-message::before {
+	content: "تسجيل مستخدم جديد";
+	text-indent: 0;
+	display: block;
+	margin-top: -20px; /* لموازنة النص داخل الزر بسبب text-indent */
+	text-align: center;
 }
 
 input:hover {
-	box-shadow: 0px 0px 10px 1px #466a47 !important; /* ظل عند التحويم للمدخلات */
+	box-shadow: 0px 0px 10px 1px #6878e2 !important; /* ظل عند التحويم للمدخلات */
 }
 
 /* Login button styling */
@@ -103,7 +150,6 @@ input:hover {
 	font-weight: 600; /* خط عريض */
 	text-align: center; /* توسيط النص */
 	margin-top: 20px; /* مسافة أعلى الزر */
-
 	/* تدرج وأنماط النص من CSS المستخدم */
 	background-image: linear-gradient(
 		to right,
@@ -112,17 +158,15 @@ input:hover {
 		#dbdbdb 50%,
 		#eaeaea 100%
 	) !important;
-	color: #dc1212;
+	color: #6878e2;
 	text-shadow: 0px 1px 1px rgb(255, 255, 255), 0px -1px 1px rgb(0, 0, 0);
 	box-shadow: 0px 0px 10px 1px rgba(149, 61, 61, 0.41) !important;
 	background-size: 400% 100%; /* للرسوم المتحركة */
-	animation: gradientAnimation 5s ease infinite; /* الرسوم المتحركة */
-	transition: box-shadow 0.3s ease, color 0.3s ease; /* انتقالات سلسة */
 }
 
 .for-login .page-card .btn-login:hover {
-	color: #2f8338; /* لون النص عند التحويم */
-	box-shadow: 0px 0px 10px 1px #466a47 !important; /* ظل عند التحويم */
+	color: #6878e2; /* لون النص عند التحويم */
+	box-shadow: 0px 0px 10px 1px #6878e2 !important; /* ظل عند التحويم */
 }
 
 /* Forgot password link styling */
@@ -132,17 +176,16 @@ input:hover {
 }
 
 .forgot-password-message a {
-	color: #678fb1; /* لون الرابط */
+	color: #6878e2; /* لون الرابط */
 	text-decoration: none; /* بدون تسطير */
 	padding: 5px 10px; /* حشوة لمنطقة النقر */
 	border-radius: 5px; /* حواف مستديرة */
 	box-shadow: 0px 0px 5px 0px rgba(149, 61, 61, 0.41) !important; /* الظل الأولي */
-	transition: box-shadow 0.3s ease; /* انتقال سلس */
 	display: inline-block; /* السماح بالحشوة والظل */
 }
 
 .forgot-password-message a:hover {
-	box-shadow: 0px 0px 5px 0px #466a47 !important; /* ظل عند التحويم */
+	box-shadow: 0px 0px 5px 0px #6878e2 !important; /* ظل عند التحويم */
 }
 
 /* Navbar styling (if used, though not directly in login form) */
@@ -152,7 +195,7 @@ input:hover {
 		rgba(78, 74, 51, 0.405),
 		rgba(63, 88, 138, 0.51) 100%
 	) !important;
-	color: #dc1212;
+	color: #6878e2;
 	text-shadow: 0px 1px 1px rgb(255, 255, 255), 0px -1px 1px rgb(0, 0, 0);
 	box-shadow: 0px 0px 10px 1px rgba(149, 61, 61, 0.41) !important;
 	padding: 15px; /* إضافة حشوة لشريط التنقل */
@@ -162,14 +205,14 @@ input:hover {
 .navbar-light:hover {
 	background-image: linear-gradient(
 		to right,
-		#bdb591 0%,
+		#4191e3 20%,
 		#f2f2f2 25%,
 		#dbdbdb 50%,
 		#eaeaea 100%
 	) !important;
-	color: #2f8338;
+	color: #6878e2;
 	text-shadow: 0px 1px 1px rgb(255, 255, 255), 0px -1px 1px rgb(0, 0, 0);
-	box-shadow: 0px 0px 10px 1px #466a47 !important;
+	box-shadow: 0px 0px 10px 1px #6878e2 !important;
 }
 
 /* Image styling within page card head */
@@ -183,22 +226,10 @@ input:hover {
 	max-width: 100%; /* التأكد من أن الصورة لا تتجاوز حاويتها */
 }
 
-/* Keyframe animation for button gradient */
-@keyframes gradientAnimation {
-	0% {
-		background-position: 0% 50%;
-	}
-	100% {
-		background-position: 100% 50%;
-	}
-}
-
-/* Hide the web-footer element */
 .web-footer {
 	display: none !important;
 }
 
-/* Responsive adjustments for very small screens */
 @media (max-width: 576px) {
 	body {
 		padding: 10px; /* تقليل الحشوة على الشاشات الصغيرة جدًا */
@@ -218,4 +249,8 @@ input:hover {
 
 .mb-0 .form-control {
 	width: 150px;
+}
+.navbar-expand-lg {
+	align-content: top;
+	margin-top: -15rem;
 }
