@@ -1,7 +1,6 @@
 import frappe
 from frappe import _
 from frappe.model.naming import append_number_if_name_exists
-from frappe.utils import escape_html, random_string
 from frappe.website.utils import cleanup_page_name, is_signup_disabled
 
 from lms.lms.utils import get_country_code
@@ -20,16 +19,11 @@ def validate_username_duplicates(doc, method):
 
 
 def after_insert(doc, method):
-    # Skip if user was created via SQL (role already exists)
-    # This prevents triggering save/on_update which would send emails
-    if frappe.db.exists("Has Role", {"parent": doc.name, "role": "LMS Student"}) or \
-       frappe.db.exists("Has Role", {"parent": doc.name, "role": "Course Creator"}):
-        # User was created via SQL, role already added, skip to avoid triggering save
-        return
-
-    # Only add role if it doesn't already exist and user was created via Document model
+    # Check if role already exists to avoid duplicate role addition
     existing_roles = [d.role for d in doc.get("roles", [])]
-    # Default to LMS Student if no role exists
+
+    # Only add default role if no role exists and user was created via sign_up
+    # The sign_up function handles role assignment, so this is a fallback
     if "LMS Student" not in existing_roles and "Course Creator" not in existing_roles:
         # Set flags to prevent email sending
         doc.flags.email_sent = 1
@@ -38,20 +32,6 @@ def after_insert(doc, method):
 
 
 @frappe.whitelist(allow_guest=True)
-				# email: email,
-				# full_name: full_name,
-				# verify_terms: $("#teacher-terms").prop("checked") ? 1 : 0,
-				# user_category:
-				# 	"Teacher - " + specialization + " (" + experience + ")",
-				# user_type: "teacher",
-				# mobile_no: mobile_no || null,
-
-				# email: email,
-				# full_name: full_name,
-				# verify_terms: $("#student-terms").prop("checked") ? 1 : 0,
-				# user_category: "Student - " + grade,
-				# user_type: "student",
-				# mobile_no: mobile_no || null,
 def sign_up(email, full_name, verify_terms, user_category, user_type="student", mobile_no=None):
     frappe.log_error(
         f"[user.py] (Signup started for: {email}, type: {user_type})", "LMS Signup Debug")
@@ -85,18 +65,11 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
     frappe.log_error(
         f"[user.py] (Creating new user with enabled=1, password set)", "LMS Signup Debug")
 
-    # Create new User using direct SQL insertion to completely bypass Document model and email hooks
-    user_name = email.strip().lower()
-    first_name_escaped = escape_html(full_name)
-    from frappe.utils import now_datetime, get_system_timezone
-    from frappe.utils.password import passlibctx
-
-    now = now_datetime()
-    time_zone = get_system_timezone()
-    user = None
+    from frappe.utils import get_system_timezone
 
     try:
         # Generate username from full_name
+        user_name = email.strip().lower()
         username = cleanup_page_name(full_name)
         if " " in username:
             username = username.replace(" ", "")
@@ -109,112 +82,57 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
         username = append_number_if_name_exists(
             "User", username, fieldname="username")
 
-        # Insert user directly using SQL to bypass all hooks
-        # Set send_welcome_email=0 explicitly to prevent email sending
-        mobile_no_escaped = escape_html(
-            mobile_no.strip()) if mobile_no and mobile_no.strip() else None
-        verify_terms_value = 1 if verify_terms else 0
-        user_category_escaped = escape_html(
-            user_category) if user_category else None
-        frappe.db.sql("""
-            INSERT INTO `tabUser` (
-                name, email, first_name, full_name, username, enabled,
-                send_welcome_email, user_type, country, time_zone, mobile_no,
-                verify_terms, user_category,
-                creation, modified, owner, modified_by, docstatus, idx
-            ) VALUES (
-                %s, %s, %s, %s, %s, %s,
-                0, %s, %s, %s, %s,
-                %s, %s,
-                %s, %s, %s, %s, 0, 0
-            )
-        """, (
-            user_name, user_name, first_name_escaped, first_name_escaped, username, 1,
-            "Website User", "", time_zone, mobile_no_escaped,
-            verify_terms_value, user_category_escaped,
-            now, now, "Administrator", "Administrator"
-        ))
+        # Create new User using frappe.new_doc (follows Frappe best practices)
+        user = frappe.new_doc("User")
+        user.email = user_name
+        user.first_name = full_name  # Frappe handles escaping automatically
+        user.enabled = 1
+        user.send_welcome_email = 0
+        user.user_type = "Website User"
+        user.time_zone = get_system_timezone()
+        user.username = username
 
-        # Immediately update send_welcome_email to 0 again in case anything changed it
-        # This ensures no welcome email is sent even if document is loaded later
-        frappe.db.sql("""
-            UPDATE `tabUser`
-            SET send_welcome_email = 0
-            WHERE name = %s
-        """, (user_name,))
+        # Set custom fields
+        if mobile_no and mobile_no.strip():
+            user.phone = mobile_no.strip()
+        if verify_terms:
+            user.verify_terms = 1
+        if user_category:
+            user.user_category = user_category
+
+        # Set flags to prevent email sending
+        user.flags.no_welcome_mail = True
+        user.flags.email_sent = 1
+        user.flags.ignore_permissions = True
+        user.flags.ignore_password_policy = True
+
+        # Insert user (this triggers hooks, but flags prevent email sending)
+        user.insert()
 
         frappe.log_error(
-            f"[user.py] (User inserted into DB via SQL: {user_name})", "LMS Signup Debug")
+            f"[user.py] (User created via Document model: {user.name})", "LMS Signup Debug")
 
-        # Set password hash directly in __Auth table using SQL
-        hashPwd = passlibctx.hash("123123")
-
-        if frappe.db.db_type == "mariadb":
-            frappe.db.sql("""
-                INSERT INTO `__Auth` (doctype, name, fieldname, password, encrypted)
-                VALUES (%s, %s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE password = %s, encrypted = %s
-            """, ("User", user_name, "password", hashPwd, 0, hashPwd, 0))
-        elif frappe.db.db_type == "postgres":
-            frappe.db.sql("""
-                INSERT INTO "__Auth" (doctype, name, fieldname, password, encrypted)
-                VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT (doctype, name, fieldname)
-                DO UPDATE SET password = %s, encrypted = %s
-            """, ("User", user_name, "password", hashPwd, 0, hashPwd, 0))
+        # Set password
+        user.new_password = "123123"
+        user.save()
 
         frappe.log_error(
-            f"[user.py] (Password set for user: {user_name})", "LMS Signup Debug")
-
-        # Create notification settings using SQL (normally done in after_insert hook)
-        if not frappe.db.exists("Notification Settings", user_name):
-            frappe.db.sql("""
-                INSERT INTO `tabNotification Settings` (
-                    name, creation, modified, owner, modified_by, docstatus, idx
-                ) VALUES (
-                    %s, %s, %s, %s, %s, 0, 0
-                )
-            """, (user_name, now, now, "Administrator", "Administrator"))
+            f"[user.py] (Password set for user: {user.name})", "LMS Signup Debug")
 
         # Add role based on user type (Student or Teacher)
-        role_name = frappe.generate_hash(length=10)
-        # Determine role: "Course Creator" for teachers, "LMS Student" for students
         role = "Course Creator" if user_type.lower() == "teacher" else "LMS Student"
-        frappe.db.sql("""
-            INSERT INTO `tabHas Role` (
-                name, parent, parenttype, parentfield, role,
-                creation, modified, owner, modified_by, docstatus, idx
-            ) VALUES (
-                %s, %s, %s, %s, %s,
-                %s, %s, %s, %s, 0, 0
-            )
-        """, (
-            role_name, user_name, "User", "roles", role,
-            now, now, "Administrator", "Administrator"
-        ))
+        user.add_roles(role)
 
         frappe.log_error(
-            f"[user.py] (Role '{role}' added to user: {user_name})", "LMS Signup Debug")
+            f"[user.py] (Role '{role}' added to user: {user.name})", "LMS Signup Debug")
 
-        # Set country from IP using SQL (avoid any document operations)
+        # Set country from IP
         country_code = get_country_code()
         if country_code:
-            frappe.db.sql("""
-                UPDATE `tabUser`
-                SET country = %s
-                WHERE name = %s AND (country IS NULL OR country = '')
-            """, (country_code, user_name))
+            user.country = country_code
+            user.save()
 
-        # Clear cache
-        frappe.cache.delete_key("users_for_mentions")
-        frappe.cache.delete_key("enabled_users")
-
-        # Commit transaction
-        frappe.db.commit()
-
-        # Don't load User doc to avoid triggering any hooks
-        # Just use user_name string for subsequent operations
-        user = user_name
+        # Cache is cleared automatically by after_insert hook
 
     except Exception as e:
         # Log any errors
@@ -227,7 +145,7 @@ def sign_up(email, full_name, verify_terms, user_category, user_type="student", 
         }
 
     frappe.log_error(
-        f"[user.py] (User fully created: {user}, returning success message)", "LMS Signup Debug")
+        f"[user.py] (User fully created: {user.name}, returning success message)", "LMS Signup Debug")
 
     response = {
         "success": True,
