@@ -4,6 +4,76 @@
 	>
 		<Breadcrumbs :items="[{ label: __('Home'), route: { name: 'Home' } }]" />
 	</header> -->
+	<div
+		class="d-flex align-items-center"
+		style="
+			background: linear-gradient(90deg, #6a11cb 3.62%, #2575fc 97.87%);
+			color: #fff;
+			height: 50px;
+		"
+	>
+		<div class="container d-flex align-items-center justify-content-between">
+			<ul class="d-flex align-items-center" style="display: none !important">
+				<li class="promobar_socials-item">
+					<a class="link" href="#" target="_blank" rel="noopener noreferrer">
+						<i class="icon-facebook"></i>
+					</a>
+				</li>
+				<li class="promobar_socials-item">
+					<a class="link" href="#" target="_blank" rel="noopener noreferrer">
+						<i class="icon-twitter"></i>
+					</a>
+				</li>
+				<li class="promobar_socials-item">
+					<a class="link" href="#" target="_blank" rel="noopener noreferrer">
+						<i class="icon-instagram"></i>
+					</a>
+				</li>
+			</ul>
+			<div
+				class="d-flex align-items-center"
+				style="
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-grow: 1;
+					gap: 104px;
+					padding-top: 7px;
+					padding-bottom: 7px;
+					text-align: center;
+					vertical-align: middle;
+					flex-wrap: wrap;
+				"
+			>
+				<p
+					style="
+						margin-right: 15px;
+						line-height: 1;
+						padding-left: 22px;
+						padding-right: 22px;
+					"
+				>
+					Try for free!
+					<span style="display: none">30 day Trial and Free Lectures</span>
+				</p>
+				<a
+					class="btn btn--yellow"
+					href="#"
+					id="signUpTrigger"
+					style="
+						width: 109px;
+						height: 33px;
+						padding: 0 20px;
+						line-height: 1;
+						margin: 0;
+					"
+				>
+					<span style="position: relative; top: 1px">Sign Up</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
 	<div class="w-full px-5 pt-5 pb-10">
 		<div class="space-y-2">
 			<div class="flex items-center justify-between">
@@ -104,17 +174,17 @@ const subtitle = computed(() => {
 				adminLiveClasses.data.length,
 				liveClassSuffix,
 				adminEvals.data.length,
-				evalSuffix
+				evalSuffix,
 			)
 		} else if (adminLiveClasses.data?.length > 0) {
 			return __('You have {0} upcoming {1}.').format(
 				adminLiveClasses.data.length,
-				liveClassSuffix
+				liveClassSuffix,
 			)
 		} else if (adminEvals.data?.length > 0) {
 			return __('You have {0} {1} scheduled.').format(
 				adminEvals.data.length,
-				evalSuffix
+				evalSuffix,
 			)
 		}
 		return __('Manage your courses and batches at a glance')
@@ -127,17 +197,17 @@ const subtitle = computed(() => {
 				myLiveClasses.data.length,
 				liveClassSuffix,
 				evalCount.value,
-				evalSuffix
+				evalSuffix,
 			)
 		} else if (myLiveClasses.data?.length > 0) {
 			return __('You have {0} upcoming {1}.').format(
 				myLiveClasses.data.length,
-				liveClassSuffix
+				liveClassSuffix,
 			)
 		} else if (evalCount.value > 0) {
 			return __('You have {0} {1} scheduled.').format(
 				evalCount.value,
-				evalSuffix
+				evalSuffix,
 			)
 		}
 		return __('Resume where you left off')
