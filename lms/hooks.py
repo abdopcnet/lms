@@ -32,7 +32,8 @@ app_include_css = [
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+# Set to "home" to show the landing page template
+home_page = "home"
 
 # website user home page (by Role)
 # role_home_page = {
