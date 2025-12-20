@@ -19,6 +19,7 @@ import { posthogSettings } from '@/telemetry'
 import DesktopLayout from './components/DesktopLayout.vue'
 import MobileLayout from './components/MobileLayout.vue'
 import NoSidebarLayout from './components/NoSidebarLayout.vue'
+import NavbarLayout from './components/NavbarLayout.vue'
 import InstallPrompt from './components/InstallPrompt.vue'
 
 const { isMobile } = useScreenSize()
@@ -36,14 +37,14 @@ router.beforeEach((to, from, next) => {
 	next()
 })
 
+// Layout selection - uses top navbar layout for all screen sizes
+// NoSidebarLayout is used for lesson pages and persona route
 const Layout = computed(() => {
 	if (noSidebar.value) {
 		return NoSidebarLayout
 	}
-	if (isMobile.value) {
-		return MobileLayout
-	}
-	return DesktopLayout
+	// Use NavbarLayout for both desktop and mobile - it has responsive design built-in
+	return NavbarLayout
 })
 
 onUnmounted(() => {
