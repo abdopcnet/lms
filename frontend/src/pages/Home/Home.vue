@@ -1,6 +1,7 @@
 <template>
 	<div class="w-full px-5 pt-5 pb-10">
-		<div class="space-y-2">
+		<!-- Show personalized greeting only for logged-in users -->
+		<div v-if="isLoggedIn" class="space-y-2 mb-8">
 			<div class="flex items-center justify-between">
 				<div class="text-xl font-bold text-ink-gray-9">
 					{{ __('Hey') }}, {{ user.data?.full_name }} 👋
@@ -573,7 +574,8 @@
 		</div>
 	</section>
 
-	<Streak v-model="showStreakModal" :streakInfo="streakInfo" />
+	<!-- Streak modal only for logged-in users -->
+	<Streak v-if="isLoggedIn" v-model="showStreakModal" :streakInfo="streakInfo" />
 </template>
 
 <script setup lang="ts">
@@ -584,16 +586,21 @@ import Streak from '@/pages/Home/Streak.vue'
 
 const user = inject<any>('$user')
 const { brand } = sessionStore()
+// Check if user is logged in - show personalized content only for authenticated users
+let { isLoggedIn } = sessionStore()
 const evalCount = ref(0)
 const currentTab = ref<'student' | 'instructor'>('instructor')
 const showStreakModal = ref(false)
 
+// Only fetch evaluation data for logged-in users
 onMounted(() => {
-	call('lms.lms.utils.get_upcoming_evals')
-		.then((data: any) => {
-			evalCount.value = data.length
-		})
-		.catch((err) => console.error('Error fetching evals:', err))
+	if (isLoggedIn) {
+		call('lms.lms.utils.get_upcoming_evals')
+			.then((data: any) => {
+				evalCount.value = data.length
+			})
+			.catch((err) => console.error('Error fetching evals:', err))
+	}
 })
 
 const isAdmin = computed(() => {
@@ -604,24 +611,25 @@ const isAdmin = computed(() => {
 	)
 })
 
+// Resources only for logged-in users - fetch live classes and evaluation data
 const myLiveClasses = createResource({
 	url: 'lms.lms.utils.get_my_live_classes',
-	auto: !isAdmin.value ? true : false,
+	auto: isLoggedIn && !isAdmin.value ? true : false,
 })
 
 const adminLiveClasses = createResource({
 	url: 'lms.lms.utils.get_admin_live_classes',
-	auto: isAdmin.value ? true : false,
+	auto: isLoggedIn && isAdmin.value ? true : false,
 })
 
 const adminEvals = createResource({
 	url: 'lms.lms.utils.get_admin_evals',
-	auto: isAdmin.value ? true : false,
+	auto: isLoggedIn && isAdmin.value ? true : false,
 })
 
 const streakInfo = createResource({
 	url: 'lms.lms.utils.get_streak_info',
-	auto: true,
+	auto: isLoggedIn ? true : false,
 })
 
 const subtitle = computed(() => {
