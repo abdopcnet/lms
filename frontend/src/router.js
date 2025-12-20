@@ -267,6 +267,7 @@ let router = createRouter({
 	routes,
 })
 
+// Route guard - handles authentication and guest access
 router.beforeEach(async (to, from, next) => {
 	const { userResource } = usersStore()
 	let { isLoggedIn } = sessionStore()
@@ -280,11 +281,23 @@ router.beforeEach(async (to, from, next) => {
 		isLoggedIn = false
 	}
 
+	// Allow guests to view the site - Home page is always accessible
+	// Other pages require guest access to be enabled in LMS Settings
 	if (!isLoggedIn) {
-		if (to.name == 'Home') router.push({ name: 'Courses' })
+		// Home page is always accessible to guests regardless of settings
+		if (to.name === 'Home') {
+			return next()
+		}
 
-		await settings.promise
-		if (!settings.data.allow_guest_access) {
+		// For other pages, check guest access setting
+		try {
+			await settings.promise
+			if (!settings.data?.allow_guest_access) {
+				window.location.href = '/login'
+				return
+			}
+		} catch (error) {
+			// If settings fail to load, redirect to login for non-home pages
 			window.location.href = '/login'
 			return
 		}
