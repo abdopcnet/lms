@@ -14,6 +14,11 @@ def get_context():
 	frappe.db.commit()
 
 	app_path = frappe.form_dict.get("app_path")
+
+	# Redirect to landing page if accessing /lms/ without a path
+	if not app_path:
+		frappe.local.flags.redirect_location = "/home"
+		raise frappe.Redirect
 	favicon = frappe.db.get_single_value("Website Settings", "favicon") or "/assets/lms/frontend/favicon.png"
 	title = frappe.db.get_single_value("Website Settings", "app_name") or "Frappe Learning"
 
