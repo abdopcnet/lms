@@ -19,21 +19,31 @@ app_license = "AGPL"
 # app_include_js = "/assets/lms/js/lms.js"
 
 # include js, css files in header of web template
-
 web_include_css = "lms.bundle.css"
 # web_include_css = "/assets/lms/css/lms.css"
 web_include_js = []
 
-app_include_css = [
-    "login_bundle.css"
-]
+# include custom scss in every website theme (without file extension ".scss")
+# website_theme_scss = "lms/public/scss/website"
+
+# include js, css files in header of web form
+# webform_include_js = {"doctype": "public/js/doctype.js"}
+# webform_include_css = {"doctype": "public/css/doctype.css"}
+
+# include js in page
+# page_js = {"page" : "public/js/file.js"}
+
+# include js in doctype views
+# doctype_js = {"doctype" : "public/js/doctype.js"}
+# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
+# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
 # Home Pages
 # ----------
 
 # application home page (will override Website Settings)
-# Set to "home" to show the landing page template
-home_page = "home"
+# home_page = "login"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -54,6 +64,9 @@ after_install = "lms.install.after_install"
 after_sync = "lms.install.after_sync"
 before_uninstall = "lms.install.before_uninstall"
 setup_wizard_requires = "assets/lms/js/setup_wizard.js"
+# after_migrate = [
+# 	"lms.sqlite.build_index_in_background",
+# ]
 
 # Desk Notifications
 # ------------------
@@ -79,7 +92,6 @@ setup_wizard_requires = "assets/lms/js/setup_wizard.js"
 
 override_doctype_class = {
     "Web Template": "lms.overrides.web_template.CustomWebTemplate",
-    "User": "lms.overrides.user.CustomUser",
 }
 
 # Document Events
@@ -97,16 +109,18 @@ doc_events = {
         "validate": "lms.lms.utils.validate_discussion_reply",
     },
     "Notification Log": {"on_change": "lms.lms.utils.publish_notifications"},
-    # User hooks disabled - users are created via SQL to avoid email triggers
-    # "User": {
-    # 	"validate": "lms.lms.user.validate_username_duplicates",
-    # 	"after_insert": "lms.lms.user.after_insert",
-    # },
+    "User": {
+        "validate": "lms.lms.user.validate_username_duplicates",
+        "after_insert": "lms.lms.user.after_insert",
+    },
 }
 
 # Scheduled Tasks
 # ---------------
 scheduler_events = {
+    # "all": [
+    # 	"lms.sqlite.build_index_in_background",
+    # ],
     "hourly": [
         "lms.lms.doctype.lms_certificate_request.lms_certificate_request.schedule_evals",
         "lms.lms.api.update_course_statistics",
@@ -183,7 +197,6 @@ update_website_context = [
 
 jinja = {
     "methods": [
-        "lms.lms.utils.get_signup_optin_checks",
         "lms.lms.utils.get_tags",
         "lms.lms.utils.get_lesson_count",
         "lms.lms.utils.get_instructors",
@@ -246,3 +259,5 @@ add_to_apps_screen = [
                 "has_permission": "lms.lms.api.check_app_permission",
     }
 ]
+
+# sqlite_search = ["lms.sqlite.LearningSearch"]
