@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-20.12.2025-blue)
+![Version](https://img.shields.io/badge/version-24.12.2025-blue)
 
 <div align="center" markdown="1">
 
